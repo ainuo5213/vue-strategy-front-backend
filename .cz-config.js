@@ -1,65 +1,3 @@
-# vue-strategy-front-backend
-
-### 代码规范
-
-使用`vue-cli`提供的模板自带的`standard`的 eslint 规则，需要配合 prettier 的规则使用。使用规则如下：
-
-1. vscode 安装 prettier 插件
-2. 在项目根目录新建`.prettierrc`文件，内容如下：
-
-```javascript
-{
-  "semi": false,
-  "singleQuote": true,
-  "trailingComma": "none",
-  "tabWidth": 2
-}
-```
-
-3. `.eslintrc.js`增加一行
-
-```javascript
-{
-  ...,
-  rules: {
-    ...,
-    'space-before-function-paren': 'off' // 关闭函数括号前的空格的规则
-  }
-}
-```
-
-4. vscode 设置 tabWidth 为 2，且保存文件时自动格式化文件
-
-### git 提交规范
-
-1. 全局安装 commitizen
-
-```
-npm install -g commitizen
-```
-
-2. 安装并配置`cz-customizable`插件
-
-```
-npm i cz-customizable
-```
-
-3. 添加以下配置到`package.json`中：
-
-```json
-...
-"config": {
-  "commitizen": {
-    "path": "node_modules/cz-customizable"
-  }
-}
-```
-
-4. 在项目根目录创建`.cz-config.js`自定义提示文件：
-
-   官方案例：[cz-config-EXAMPLE.js](https://github.com/leoforfree/cz-customizable/blob/master/cz-config-EXAMPLE.js)
-
-```javascript
 module.exports = {
   // 可选类型
   types: [
@@ -91,4 +29,3 @@ module.exports = {
   // subject文字长度默认是72
   subjectLimit: 72
 }
-```
