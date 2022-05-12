@@ -39,6 +39,7 @@ npm install -g commitizen
 ```
 
 2. 安装并配置`cz-customizable`插件
+   自定义 git 提交规范
 
 ```
 npm i cz-customizable
@@ -92,3 +93,103 @@ module.exports = {
   subjectLimit: 72
 }
 ```
+
+5. 然后使用`git cz`替代`git commit`
+
+### git hook
+
+git hook 主要用来解决没有使用`git cz`命令而直接使用`git commit`
+
+git hook 相当于`vue`的生命周期钩子函数类似，在某个执行阶段前做什么事
+
+| Git Hook       | 调用时机                                                                                                                                           | 说明                               |
+| :------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- |
+| **pre-commit** | `git commit`执行前<br />它不接受任何参数，并且在获取提交日志消息并进行提交之前被调用。脚本`git commit`以非零状态退出会导致命令在创建提交之前中止。 | 可以用`git commit --no-verify`绕过 |
+| **commit-msg** | `git commit`执行前<br />可用于将消息规范化为某种项目标准格式。<br />还可用于在检查消息文件后拒绝提交。                                             | 可以用`git commit --no-verify`绕过 |
+
+`git hook`主要用以上的两个钩子
+
+1.  `husky+commitlint`检查提交描述是否符合规范要求
+
+    [commitlint](https://github.com/conventional-changelog/commitlint)：用于检查提交信息
+
+    [husky](https://github.com/typicode/husky)：是`git hooks`工具
+
+2.  安装`commitlint`
+
+    a. 安装依赖：
+
+    ```
+    npm install @commitlint/config-conventional @commitlint/cli -D
+    ```
+
+    b. 创建`commitlint.config.js`文件：
+
+    ```
+    echo "module.exports = {extends: ['@commitlint/config-conventional']}" > commitlint.config.js
+    ```
+
+    c. 增加配置：
+
+    官方可配置的`rules`： [config-conventional 默认配置点击可查看](https://github.com/conventional-changelog/commitlint/blob/master/@commitlint/config-conventional/index.js)
+
+    ```javascript
+    module.exports = {
+      // 继承的规则
+      extends: ['@commitlint/config-conventional'],
+      // 定义规则类型
+      rules: {
+        // type 类型定义，表示 git 提交的 type 必须在以下类型范围内
+        'type-enum': [
+          2,
+          'always',
+          [
+            'feat', // 新功能 feature
+            'fix', // 修复 bug
+            'docs', // 文档注释
+            'style', // 代码格式(不影响代码运行的变动)
+            'refactor', // 重构(既不增加新功能，也不是修复bug)
+            'perf', // 性能优化
+            'test', // 增加测试
+            'chore', // 构建过程或辅助工具的变动
+            'revert', // 回退
+            'build' // 打包
+          ]
+        ],
+        // subject 大小写不做校验
+        'subject-case': [0]
+      }
+    }
+    ```
+
+3.  husky 配置
+
+    a. 安装 husky
+
+    ```
+    npm install husky -D
+    ```
+
+    b. 创建`.husky`文件夹
+
+    ```
+    npx husky install
+    ```
+
+    c. 在`package.json`中生成`prepare`指令
+
+    ```
+    npm set-script prepare "husky install"
+    ```
+
+    d. 执行 `prepare` 指令
+
+    ```
+    npm run prepare
+    ```
+
+    e. 添加 `commitlint` 的 `hook` 到 `husky`中，并指令在 `commit-msg` 的 `hooks` 下执行 `npx --no-install commitlint --edit "$1"` 指令
+
+    ```
+    npx husky add .husky/commit-msg 'npx --no-install commitlint --edit "$1"'
+    ```
