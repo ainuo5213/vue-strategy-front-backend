@@ -193,3 +193,9 @@ git hook 相当于`vue`的生命周期钩子函数类似，在某个执行阶段
     ```
     npx husky add .husky/commit-msg 'npx --no-install commitlint --edit "$1"'
     ```
+
+4. `pre-commit`检测提交时的代码规范
+
+    通过 **`husky` 监测 `pre-commit` 钩子，在该钩子下执行 `npx eslint --ext .js,.vue src`** 指令来去进行相关检测：
+
+    a. 执行 `npx husky add .husky/pre-commit "npx eslint --ext .js,.vue src"` 添加 `commit` 时的 `hook` （`npx eslint --ext .js,.vue src` 会在执行到该 hook 时运行）
