@@ -227,3 +227,19 @@ git hook 相当于`vue`的生命周期钩子函数类似，在某个执行阶段
     npx lint-staged
 
     ```
+
+### VUE3 新特性
+
+#### CompositionAPI
+
+使用 CompositionAPI 替代 OptionsAPI，使组件代码可以更加集中，更加简洁，代码可读性更高。
+
+### ReactivityAPI
+
+`Proxy`替代`Object.defineProperty`，实现对象和数组的响应式，修复 2.0 版本的数据响应式的 bug
+
+### `TypeScript`全面支持
+
+### `vite`新一代打包工具
+
+采用原生`ESM`，有更快的编译打包效果。
