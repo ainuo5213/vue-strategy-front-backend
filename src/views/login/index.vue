@@ -60,18 +60,21 @@ import { ref } from 'vue'
 import SvgIcon from '@/components/base/svg-icon/svg-icon.vue'
 import { validatePassword } from './rules'
 import type { ElForm } from 'element-plus'
+import { useStore } from 'vuex'
+import { ElMessage } from 'element-plus'
 
 type ElFormInstance = InstanceType<typeof ElForm>
 
 export default {
   name: 'login-page',
   setup() {
+    const store = useStore()
     const passwordType = ref('password')
     const loginFromRef = ref<ElFormInstance>()
     const loading = ref(false)
     const loginForm = ref({
-      username: '',
-      password: ''
+      username: 'super-admin',
+      password: '123456'
     })
     const loginFormRules = ref({
       username: [{ triger: 'blur', required: true, message: '请输入用户名' }],
@@ -79,9 +82,18 @@ export default {
     })
     function onLoginBtnClick() {
       if (loginFromRef.value) {
-        loginFromRef.value.validate((isValid: boolean) => {
+        loginFromRef.value.validate(async (isValid: boolean) => {
           if (isValid) {
-            console.log(1)
+            try {
+              loading.value = true
+              await store.dispatch('user/doLogin', loginForm.value)
+              ElMessage({
+                type: 'success',
+                message: '登陆成功'
+              })
+            } finally {
+              loading.value = false
+            }
           }
         })
       }
