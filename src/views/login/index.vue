@@ -1,6 +1,11 @@
 <template>
   <div class="login-container">
-    <el-form class="login-form" ref="loginFromRef">
+    <el-form
+      class="login-form"
+      ref="loginFromRef"
+      :model="loginForm"
+      :rules="loginFormRules"
+    >
       <div class="title-container">
         <h3 class="title">用户登录</h3>
       </div>
@@ -10,7 +15,7 @@
           <svg-icon icon="user"></svg-icon>
         </span>
         <el-input
-          placeholder="username"
+          placeholder="用户名"
           name="username"
           type="text"
           v-model="loginForm.username"
@@ -22,14 +27,16 @@
           <svg-icon icon="password"></svg-icon>
         </span>
         <el-input
-          placeholder="password"
+          placeholder="密码"
           name="password"
           :type="passwordType"
           v-model="loginForm.password"
         />
         <span class="show-pwd">
-          <span class="svg-container">
-            <svg-icon icon="eye"></svg-icon>
+          <span class="svg-container" @click="onChangePwdTypeBtnClick">
+            <svg-icon
+              :icon="passwordType === 'password' ? 'eye' : 'eye-open'"
+            ></svg-icon>
           </span>
         </span>
       </el-form-item>
@@ -49,29 +56,48 @@
 </template>
 
 <script lang="ts">
-import { reactive, ref } from 'vue'
+import { ref } from 'vue'
 import SvgIcon from '@/components/base/svg-icon/svg-icon.vue'
+import { validatePassword } from './rules'
+import type { ElForm } from 'element-plus'
+
+type ElFormInstance = InstanceType<typeof ElForm>
+
 export default {
   name: 'login-page',
   setup() {
     const passwordType = ref('password')
+    const loginFromRef = ref<ElFormInstance>()
     const loading = ref(false)
-    const loginForm = reactive({
+    const loginForm = ref({
       username: '',
       password: ''
     })
+    const loginFormRules = ref({
+      username: [{ triger: 'blur', required: true, message: '请输入用户名' }],
+      password: [{ triger: 'blur', validator: validatePassword() }]
+    })
     function onLoginBtnClick() {
-      console.log('登录啦')
+      if (loginFromRef.value) {
+        loginFromRef.value.validate((isValid: boolean) => {
+          if (isValid) {
+            console.log(1)
+          }
+        })
+      }
     }
-    function onChangePwdType() {
-      console.log('切换')
+    function onChangePwdTypeBtnClick() {
+      passwordType.value =
+        passwordType.value === 'password' ? 'text' : 'password'
     }
     return {
       loginForm,
       passwordType,
       loading,
+      loginFormRules,
       onLoginBtnClick,
-      onChangePwdType
+      onChangePwdTypeBtnClick,
+      loginFromRef
     }
   },
   components: { SvgIcon }
@@ -98,7 +124,7 @@ $cursor: #fff;
     margin: 0 auto;
     overflow: hidden;
 
-    ::v-deep .el-form-item {
+    ::v-deep(.el-form-item) {
       border: 1px solid rgba(255, 255, 255, 0.1);
       background: rgba(0, 0, 0, 0.1);
       border-radius: 5px;
@@ -151,7 +177,6 @@ $cursor: #fff;
   .show-pwd {
     position: absolute;
     right: 10px;
-    top: 10px;
     font-size: 16px;
     color: $dark_gray;
     cursor: pointer;
