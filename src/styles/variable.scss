@@ -1,4 +1,10 @@
 $primary: #db9e3f;
+$primary-light-3: lighten($primary, 30%);
+$primary-light-5: lighten($primary, 50%);
+$primary-light-7: lighten($primary, 70%);
+$primary-light-8: lighten($primary, 80%);
+$primary-light-9: lighten($primary, 90%);
+$primary-dark-2: darken($primary, 20%);
 $white: #fff;
 $light: #f9f9f9;
 $light-1: #d4d9de;

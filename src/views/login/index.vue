@@ -7,9 +7,7 @@
 
       <el-form-item prop="username">
         <span class="svg-container">
-          <el-icon>
-            <avatar></avatar>
-          </el-icon>
+          <svg-icon icon="user"></svg-icon>
         </span>
         <el-input
           placeholder="username"
@@ -21,9 +19,7 @@
 
       <el-form-item prop="password">
         <span class="svg-container">
-          <el-icon>
-            <avatar></avatar>
-          </el-icon>
+          <svg-icon icon="password"></svg-icon>
         </span>
         <el-input
           placeholder="password"
@@ -32,9 +28,9 @@
           v-model="loginForm.password"
         />
         <span class="show-pwd">
-          <el-icon>
-            <avatar></avatar>
-          </el-icon>
+          <span class="svg-container">
+            <svg-icon icon="eye"></svg-icon>
+          </span>
         </span>
       </el-form-item>
 
@@ -54,6 +50,7 @@
 
 <script lang="ts">
 import { reactive, ref } from 'vue'
+import SvgIcon from '@/components/base/svg-icon/svg-icon.vue'
 export default {
   name: 'login-page',
   setup() {
@@ -76,7 +73,8 @@ export default {
       onLoginBtnClick,
       onChangePwdType
     }
-  }
+  },
+  components: { SvgIcon }
 }
 </script>
 
