@@ -24,7 +24,6 @@ service.interceptors.request.use((config) => {
 })
 
 service.interceptors.response.use(
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (resp: AxiosResponse<CustomResponse<any>>) => {
     const { data, status } = resp
     if (status === 200 && data.success && data.code === 200) {
