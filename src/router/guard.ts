@@ -1,3 +1,4 @@
+import nProgress from 'nprogress'
 import store from '@/store'
 import unAuthorizeRoutes from './routes/unauthorize-routes'
 import {
@@ -7,6 +8,10 @@ import {
 } from 'vue-router'
 
 const whiteList = unAuthorizeRoutes.map((r) => r.path)
+
+nProgress.configure({
+  showSpinner: false
+})
 
 async function setUserInfo() {
   if (!store.getters.userInfo) {
@@ -21,10 +26,11 @@ export function createRouterGuard(router: Router) {
       from: RouteLocationNormalized,
       next: NavigationGuardNext
     ) => {
+      nProgress.start()
       if (store.getters.token) {
         if (to.path === '/login') {
           next({
-            name: 'Home'
+            name: 'userManage'
           })
         } else {
           await setUserInfo()
@@ -35,10 +41,11 @@ export function createRouterGuard(router: Router) {
           next()
         } else {
           next({
-            name: 'Login'
+            name: 'login'
           })
         }
       }
+      nProgress.done()
     }
   )
 }

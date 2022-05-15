@@ -42,7 +42,7 @@ export async function doLogout(context: ActionContext<UserState, RootState>) {
   context.commit('setUser', {})
   clear(TIME_STAMP)
   router.push({
-    name: 'Login'
+    name: 'login'
   })
   return Promise.resolve()
 }

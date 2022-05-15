@@ -15,14 +15,18 @@
     "element-plus": "^2.2.0",
     "husky": "^8.0.1",
     "md5": "^2.3.0",
+    "nprogress": "^0.2.0",
+    "path-browserify": "^1.0.1",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3",
     "vuex": "^4.0.0"
   },
   "devDependencies": {
+    "@types/nprogress": "^0.2.0",
     "@commitlint/cli": "^16.2.4",
     "@commitlint/config-conventional": "^16.2.4",
     "@types/md5": "^2.3.2",
+    "@types/path-browserify": "^1.0.0",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
     "@vue/cli-plugin-babel": "~5.0.0",
@@ -57,5 +61,8 @@
       "eslint --fix",
       "git add"
     ]
+  },
+  "browser": {
+    "path": false
   }
 }

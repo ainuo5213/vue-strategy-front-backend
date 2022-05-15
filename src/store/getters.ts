@@ -1,6 +1,7 @@
 import { RootState } from './state'
 import { GetterTree } from 'vuex'
 import { isPlainObject } from '@/utils/is'
+import variables from '@/layout/theme.module.scss'
 
 export const user: GetterTree<RootState, RootState> = {
   token: (state) => state.user.token,
@@ -10,5 +11,6 @@ export const user: GetterTree<RootState, RootState> = {
       return userInfo
     }
     return null
-  }
+  },
+  cssVar: () => variables
 }
