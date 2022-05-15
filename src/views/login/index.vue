@@ -62,6 +62,7 @@ import { validatePassword } from './rules'
 import type { ElForm } from 'element-plus'
 import { useStore } from 'vuex'
 import { ElMessage } from 'element-plus'
+import { useRouter } from 'vue-router'
 
 type ElFormInstance = InstanceType<typeof ElForm>
 
@@ -69,6 +70,7 @@ export default {
   name: 'login-page',
   setup() {
     const store = useStore()
+    const router = useRouter()
     const passwordType = ref('password')
     const loginFromRef = ref<ElFormInstance>()
     const loading = ref(false)
@@ -87,6 +89,9 @@ export default {
             try {
               loading.value = true
               await store.dispatch('user/doLogin', loginForm.value)
+              router.push({
+                name: 'Home'
+              })
               ElMessage({
                 type: 'success',
                 message: '登陆成功'

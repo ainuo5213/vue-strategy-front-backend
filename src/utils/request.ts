@@ -24,6 +24,7 @@ service.interceptors.request.use((config) => {
 })
 
 service.interceptors.response.use(
+  // eslint-disable-next-line
   (resp: AxiosResponse<CustomResponse<any>>) => {
     const { data, status } = resp
     if (status === 200 && data.success && data.code === 200) {
@@ -33,7 +34,7 @@ service.interceptors.response.use(
         message: data.message,
         type: 'error'
       })
-      return Promise.reject(data.data)
+      return Promise.reject(new Error(data.message))
     }
   },
   (err) => {
@@ -41,6 +42,7 @@ service.interceptors.response.use(
       type: 'error',
       message: err.message
     })
+    Promise.reject(err)
   }
 )
 
