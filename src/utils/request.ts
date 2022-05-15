@@ -1,6 +1,7 @@
 import store from '@/store'
 import axios, { AxiosResponse } from 'axios'
 import { ElMessage } from 'element-plus'
+import { timeouted } from './auth'
 
 const dynamicCode = '50EE9B3B30EAF75D'
 
@@ -17,12 +18,16 @@ export interface CustomResponse<T> {
 }
 
 service.interceptors.request.use(
-  (config) => {
+  async (config) => {
     config.headers = {
       'Content-Type': 'application/json;charset=UTF-8',
       icode: dynamicCode
     }
     if (store.getters.token) {
+      if (timeouted()) {
+        await store.dispatch('user/doLogout')
+        return Promise.reject(new Error('登录过期'))
+      }
       config.headers.Authorization = `Bearer ${store.getters.token}`
     }
     return config
