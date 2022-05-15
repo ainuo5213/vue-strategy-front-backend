@@ -1,11 +1,12 @@
 import store from '@/store'
+import unAuthorizeRoutes from './routes/unauthorize-routes'
 import {
   Router,
   RouteLocationNormalized,
   NavigationGuardNext
 } from 'vue-router'
 
-const whiteList = ['/404', '/login']
+const whiteList = unAuthorizeRoutes.map((r) => r.path)
 
 async function setUserInfo() {
   if (!store.getters.userInfo) {
