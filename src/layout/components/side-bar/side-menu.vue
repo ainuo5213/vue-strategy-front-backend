@@ -1,10 +1,12 @@
 <template>
   <el-menu
+    :collapse="!$store.getters.sideBarOpened"
     :default-active="defaultActive"
     router
     :background-color="$store.getters.cssVar.menuBg"
     :text-color="$store.getters.cssVar.menuText"
     :active-text-color="$store.getters.cssVar.menuActiveText"
+    class="menu-container"
   >
     <side-bar-item
       v-for="item in routes"

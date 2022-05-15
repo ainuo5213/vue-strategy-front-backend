@@ -12,5 +12,6 @@ export const user: GetterTree<RootState, RootState> = {
     }
     return null
   },
-  cssVar: () => variables
+  cssVar: () => variables,
+  sideBarOpened: (state) => state.app.sideBarOpened
 }

@@ -8,7 +8,7 @@ export interface UserState {
   token: string
   userInfo: IUserInfoResultDTO | null
 }
-const userModel: Module<UserState, RootState> = {
+const userModule: Module<UserState, RootState> = {
   namespaced: true,
   state: () => ({
     token: (get<string>(TOKEN_KEY) as string) || '',
@@ -26,4 +26,4 @@ const userModel: Module<UserState, RootState> = {
   getters: {}
 }
 
-export default userModel
+export default userModule

@@ -18,7 +18,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/views/profile/index.vue'),
         meta: {
           title: 'profile',
-          icon: 'el-icon-user'
+          icon: 'user'
         }
       },
       {

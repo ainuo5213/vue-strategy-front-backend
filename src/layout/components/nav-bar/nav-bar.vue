@@ -1,5 +1,6 @@
 <template>
   <div class="navbar">
+    <hamburger class="hamburger"></hamburger>
     <div class="right-menu">
       <el-dropdown trigger="click" class="avatar-container">
         <div class="avatar-wrapper">
@@ -33,9 +34,13 @@ import { RootState } from '@/store/state'
 import { computed } from '@vue/runtime-core'
 import { Store, useStore } from 'vuex'
 import { ElMessage } from 'element-plus'
+import Hamburger from '@/components/base/hamburger/hamburger.vue'
 
 export default {
   name: 'nav-bar',
+  components: {
+    Hamburger
+  },
   setup() {
     const store: Store<RootState> = useStore()
     const userInfo = computed(() => store.state.user.userInfo)
@@ -59,6 +64,17 @@ export default {
   background: #fff;
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
 
+  .hamburger-container {
+    line-height: 46px;
+    height: 100%;
+    float: left;
+    cursor: pointer;
+    transition: background 0.5s;
+    &:hover {
+      background: rgba(0, 0, 0, 0.1);
+    }
+  }
+
   .right-menu {
     display: flex;
     align-items: center;
@@ -71,7 +87,6 @@ export default {
         margin-top: 5px;
         position: relative;
         .el-avatar {
-          --el-avatar-bg-color: none;
           margin-right: 12px;
         }
       }

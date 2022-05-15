@@ -1,7 +1,6 @@
 <template>
-  <i v-if="icon.includes('el-icon')" class="sub-el-icon" :class="icon"></i>
-  <svg-icon v-else :icon="icon"></svg-icon>
-  <span>{{ title }}</span>
+  <svg-icon :icon="icon"></svg-icon>
+  <span class="menu-item-title">{{ title }}</span>
 </template>
 
 <script lang="ts">
@@ -24,5 +23,3 @@ export default {
   }
 }
 </script>
-
-<style></style>

@@ -1,5 +1,8 @@
 <template>
-  <div class="app-wrapper">
+  <div
+    class="app-wrapper"
+    :class="[$store.getters.sideBarOpened ? 'open-side-bar' : 'hide-side-bar']"
+  >
     <!-- 左侧 menu -->
     <side-bar
       id="guide-sidebar"
@@ -56,5 +59,10 @@ export default {
   right: 0;
   z-index: 9;
   width: calc(100% - #{$sideBarWidth});
+  transition: width $sideBarDuration;
+}
+
+.hide-side-bar .fixed-header {
+  width: calc(100% - #{$hideSideBarWidth});
 }
 </style>
