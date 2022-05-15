@@ -38,7 +38,6 @@ service.interceptors.request.use(
 )
 
 service.interceptors.response.use(
-  // eslint-disable-next-line
   (resp: AxiosResponse<CustomResponse<any>>) => {
     const { data, status } = resp
     if (status === 200 && data.success && data.code === 200) {
@@ -51,7 +50,11 @@ service.interceptors.response.use(
       return Promise.reject(new Error(data.message))
     }
   },
-  (err) => {
+  async (err) => {
+    // 服务端返回了401状态码，代表token过期了
+    if (err?.response?.data.code === 401) {
+      await store.dispatch('user/doLogout')
+    }
     ElMessage({
       type: 'error',
       message: err.message
