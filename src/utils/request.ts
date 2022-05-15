@@ -1,3 +1,4 @@
+import store from '@/store'
 import axios, { AxiosResponse } from 'axios'
 import { ElMessage } from 'element-plus'
 
@@ -15,13 +16,21 @@ export interface CustomResponse<T> {
   success: boolean
 }
 
-service.interceptors.request.use((config) => {
-  config.headers = {
-    'Content-Type': 'application/json;charset=UTF-8',
-    icode: dynamicCode
+service.interceptors.request.use(
+  (config) => {
+    config.headers = {
+      'Content-Type': 'application/json;charset=UTF-8',
+      icode: dynamicCode
+    }
+    if (store.getters.token) {
+      config.headers.Authorization = `Bearer ${store.getters.token}`
+    }
+    return config
+  },
+  (err) => {
+    return Promise.reject(err)
   }
-  return config
-})
+)
 
 service.interceptors.response.use(
   // eslint-disable-next-line

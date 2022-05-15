@@ -7,9 +7,15 @@ import {
 
 const whiteList = ['/404', '/login']
 
+async function setUserInfo() {
+  if (!store.getters.userInfo) {
+    await store.dispatch('user/getUserInfo')
+  }
+}
+
 export function createRouterGuard(router: Router) {
   router.beforeEach(
-    (
+    async (
       to: RouteLocationNormalized,
       from: RouteLocationNormalized,
       next: NavigationGuardNext
@@ -20,6 +26,7 @@ export function createRouterGuard(router: Router) {
             name: 'Home'
           })
         } else {
+          await setUserInfo()
           next()
         }
       } else {

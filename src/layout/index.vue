@@ -32,7 +32,6 @@ export default {
   },
   data() {
     const variables = computed(() => variable)
-    console.log(variables)
     return {
       variables
     }

@@ -19,3 +19,7 @@ export function set<T>(key: string, value: T): void {
     localStorage.setItem(key, value + '')
   }
 }
+
+export function clear(key: string): void {
+  localStorage.removeItem(key)
+}
