@@ -1,7 +1,6 @@
 const { defineConfig } = require('@vue/cli-service')
 const { join } = require('path')
 function resolve(path) {
-  console.log(join(__dirname, path))
   return join(__dirname, path)
 }
 module.exports = defineConfig({
@@ -35,11 +34,11 @@ module.exports = defineConfig({
   },
   css: {
     loaderOptions: {
-      sass: {
-        // 全局引入变量和 mixin
-        additionalData: `
-          @import "@/styles/variable.scss";
-        `
+      css: {
+        modules: {
+          auto: true,
+          localIdentName: '[path][name]__[local]--[hash:base64:5]'
+        }
       }
     }
   }

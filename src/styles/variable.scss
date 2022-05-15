@@ -1,16 +1,12 @@
-$primary: #db9e3f;
-$primary-light-3: lighten($primary, 30%);
-$primary-light-5: lighten($primary, 50%);
-$primary-light-7: lighten($primary, 70%);
-$primary-light-8: lighten($primary, 80%);
-$primary-light-9: lighten($primary, 90%);
-$primary-dark-2: darken($primary, 20%);
-$white: #fff;
-$light: #f9f9f9;
-$light-1: #d4d9de;
-$black: #000;
-$dark: #222;
-$dark-1: #343440;
-$grey: #999;
-$grey-1: #666;
-$info: #4b67af;
+// sidebar
+$menuText: #bfcbd9;
+$menuActiveText: #ffffff;
+$subMenuActiveText: #f4f4f5;
+
+$menuBg: #304156;
+$menuHover: #263445;
+
+$subMenuBg: #1f2d3d;
+$subMenuHover: #001528;
+
+$sideBarWidth: 210px;
