@@ -1,5 +1,5 @@
 <template>
-  <div class="hamburger-container" @click="onHamburgerBtnClick">
+  <div class="hamburger" @click="onHamburgerBtnClick">
     <svg-icon class="hamburger" :icon="icon"></svg-icon>
   </div>
 </template>
@@ -30,7 +30,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.hamburger-container {
+.hamburger {
   padding: 0 16px;
   .hamburger {
     display: inline-block;

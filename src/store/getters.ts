@@ -13,5 +13,6 @@ export const user: GetterTree<RootState, RootState> = {
     return null
   },
   cssVar: () => variables,
-  sideBarOpened: (state) => state.app.sideBarOpened
+  sideBarOpened: (state) => state.app.sideBarOpened,
+  language: (state) => state.app.language
 }

@@ -1,0 +1,64 @@
+<template>
+  <el-dropdown
+    class="international"
+    trigger="click"
+    @command="handleSelectLanguage"
+  >
+    <div class="el-dropdown-link">
+      <el-tooltip content="国际化" :effect="effect">
+        <svg-icon icon="language"></svg-icon>
+      </el-tooltip>
+    </div>
+    <template #dropdown>
+      <el-dropdown-menu>
+        <el-dropdown-item
+          v-for="item in languages"
+          :key="item.value"
+          :command="item.value"
+          :disabled="item.value === language"
+          >{{ item.label }}</el-dropdown-item
+        >
+      </el-dropdown-menu>
+    </template>
+  </el-dropdown>
+</template>
+
+<script lang="ts">
+import SvgIcon from '@/components/base/svg-icon/svg-icon.vue'
+import { computed, PropType } from 'vue'
+import { useStore } from 'vuex'
+import { useI18n } from 'vue-i18n'
+import { ElMessage } from 'element-plus'
+type Effect = 'dark' | 'light'
+export default {
+  components: { SvgIcon },
+  name: 'lang-select',
+  props: {
+    effect: {
+      type: String as PropType<Effect>,
+      default: 'dark'
+    }
+  },
+  setup() {
+    const store = useStore()
+    const i18n = useI18n()
+    const languages = [
+      { label: '中文', value: 'zh' },
+      { label: 'English', value: 'en' }
+    ]
+    const language = computed(() => store.getters.language)
+    function handleSelectLanguage(command: string) {
+      i18n.locale.value = command
+      store.commit('app/setLanguage', command)
+      ElMessage.success('更新成功')
+    }
+    return {
+      handleSelectLanguage,
+      language,
+      languages
+    }
+  }
+}
+</script>
+
+<style></style>

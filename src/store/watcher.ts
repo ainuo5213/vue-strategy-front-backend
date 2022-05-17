@@ -1,3 +1,4 @@
+import { LANGUAGE_KEY } from '@/constant/app'
 import { TOKEN_KEY, USER_INFO_KEY } from '@/constant/user'
 import { clear, set } from '@/utils/storage'
 import { Store } from 'vuex'
@@ -23,6 +24,19 @@ export function watchUser(store: Store<RootState>) {
         set(USER_INFO_KEY, newValue)
       } else {
         clear(USER_INFO_KEY)
+      }
+    }
+  )
+}
+
+export function watchLang(store: Store<RootState>) {
+  store.watch(
+    (state) => state.app.language,
+    (newValue) => {
+      if (newValue) {
+        set(LANGUAGE_KEY, newValue)
+      } else {
+        clear(LANGUAGE_KEY)
       }
     }
   )

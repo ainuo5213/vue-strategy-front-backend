@@ -1,7 +1,12 @@
 <template>
   <div class="navbar">
-    <hamburger class="hamburger"></hamburger>
+    <humburger class="hamburger-container"></humburger>
+    <breadcrumb class="breadcrumb-container"></breadcrumb>
     <div class="right-menu">
+      <lang-select
+        :effect="'dark'"
+        class="right-menu-item hover-effect"
+      ></lang-select>
       <el-dropdown trigger="click" class="avatar-container">
         <div class="avatar-wrapper">
           <el-avatar
@@ -34,12 +39,16 @@ import { RootState } from '@/store/state'
 import { computed } from '@vue/runtime-core'
 import { Store, useStore } from 'vuex'
 import { ElMessage } from 'element-plus'
-import Hamburger from '@/components/base/hamburger/hamburger.vue'
+import Breadcrumb from '@/components/breadcrumb/breadcrumb.vue'
+import Humburger from '@/components/humburger/humburger.vue'
+import langSelect from '@/components/lang-select/lang-select.vue'
 
 export default {
   name: 'nav-bar',
   components: {
-    Hamburger
+    Humburger,
+    Breadcrumb,
+    langSelect
   },
   setup() {
     const store: Store<RootState> = useStore()
@@ -75,11 +84,26 @@ export default {
     }
   }
 
+  .breadcrumb-container {
+    float: left;
+  }
+
   .right-menu {
     display: flex;
     align-items: center;
     float: right;
     padding-right: 16px;
+
+    ::v-deep(.right-menu-item) {
+      display: inline-block;
+      padding: 0 18px 00;
+      font-size: 24px;
+      color: #5a5e16;
+      vertical-align: text-bottom;
+      &.hover-effect {
+        cursor: pointer;
+      }
+    }
 
     ::v-deep(.avatar-container) {
       cursor: pointer;

@@ -49,6 +49,9 @@ export default defineComponent({
   vertical-align: -0.15em;
   fill: currentColor;
   overflow: hidden;
+  &:focus {
+    outline: 0;
+  }
 }
 .svg-external-icon {
   background-color: currentColor;

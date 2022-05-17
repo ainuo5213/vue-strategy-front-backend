@@ -3,7 +3,7 @@ import { createStore } from 'vuex'
 import userModule from './user'
 import appModule from './app'
 import { user } from './getters'
-import { watchToken, watchUser } from './watcher'
+import { watchToken, watchUser, watchLang } from './watcher'
 const store = createStore<RootState>({
   modules: {
     user: userModule,
@@ -16,5 +16,6 @@ const store = createStore<RootState>({
 
 watchToken(store)
 watchUser(store)
+watchLang(store)
 
 export default store
