@@ -1,3 +1,4 @@
+import store from '@/store'
 import { createI18n } from 'vue-i18n'
 const messages = {
   en: {
@@ -12,7 +13,7 @@ const messages = {
   }
 }
 
-const locale = 'zh'
+const locale = store.getters.language
 
 const i18n = createI18n({
   legacy: false, // 使用composition api
