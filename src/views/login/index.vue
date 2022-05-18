@@ -7,7 +7,8 @@
       :rules="loginFormRules"
     >
       <div class="title-container">
-        <h3 class="title">用户登录</h3>
+        <h3 class="title">{{ $t('login.title') }}</h3>
+        <lang-select class="lang-select-container" effect="light"></lang-select>
       </div>
 
       <el-form-item prop="username">
@@ -15,7 +16,7 @@
           <svg-icon icon="user"></svg-icon>
         </span>
         <el-input
-          placeholder="用户名"
+          :placeholder="$t('login.usernamePlaceHolder')"
           name="username"
           type="text"
           v-model="loginForm.username"
@@ -27,7 +28,7 @@
           <svg-icon icon="password"></svg-icon>
         </span>
         <el-input
-          placeholder="密码"
+          :placeholder="$t('login.passwordPlaceHolder')"
           name="password"
           :type="passwordType"
           v-model="loginForm.password"
@@ -48,14 +49,16 @@
           style="width: 100%"
           :loading="loading"
           @click="onLoginBtnClick"
-          >登录</el-button
+          >{{ $t('login.loginBtn') }}</el-button
         >
       </el-form-item>
+      <div class="tips" v-html="$t('login.desc')"></div>
     </el-form>
   </div>
 </template>
 
 <script lang="ts">
+import LangSelect from '@/components/lang-select/lang-select.vue'
 import { ref } from 'vue'
 import SvgIcon from '@/components/base/svg-icon/svg-icon.vue'
 import { validatePassword } from './rules'
@@ -63,6 +66,7 @@ import type { ElForm } from 'element-plus'
 import { useStore } from 'vuex'
 import { ElMessage } from 'element-plus'
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 
 type ElFormInstance = InstanceType<typeof ElForm>
 
@@ -71,6 +75,7 @@ export default {
   setup() {
     const store = useStore()
     const router = useRouter()
+    const i18n = useI18n()
     const passwordType = ref('password')
     const loginFromRef = ref<ElFormInstance>()
     const loading = ref(false)
@@ -79,7 +84,13 @@ export default {
       password: '123456'
     })
     const loginFormRules = ref({
-      username: [{ triger: 'blur', required: true, message: '请输入用户名' }],
+      username: [
+        {
+          triger: 'blur',
+          required: true,
+          message: i18n.t('login.usernameRule')
+        }
+      ],
       password: [{ triger: 'blur', validator: validatePassword() }]
     })
     function onLoginBtnClick() {
@@ -94,7 +105,7 @@ export default {
               })
               ElMessage({
                 type: 'success',
-                message: '登陆成功'
+                message: i18n.t('toast.loginSuccess')
               })
             } finally {
               loading.value = false
@@ -117,7 +128,7 @@ export default {
       loginFromRef
     }
   },
-  components: { SvgIcon }
+  components: { SvgIcon, LangSelect }
 }
 </script>
 
@@ -172,6 +183,12 @@ $cursor: #fff;
     }
   }
 
+  .tips {
+    font-size: 16px;
+    color: #fff;
+    line-height: 24px;
+  }
+
   .svg-container {
     padding: 6px 5px 6px 15px;
     color: $dark_gray;
@@ -188,6 +205,16 @@ $cursor: #fff;
       margin: 0px auto 40px auto;
       text-align: center;
       font-weight: bold;
+    }
+
+    .lang-select-container {
+      position: absolute;
+      right: 0;
+      top: 4px;
+      font-size: 22px;
+      background-color: #fff;
+      padding: 2px;
+      border-radius: 3px;
     }
   }
 

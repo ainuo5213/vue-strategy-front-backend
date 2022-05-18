@@ -1,18 +1,17 @@
 import { createApp } from 'vue'
-import ElementPlus from 'element-plus'
-import 'element-plus/dist/index.css'
+import ElementPlusPlugin from '@/plugins/element-plus'
 import './styles/index.scss'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import ElementPlusIcon from '@/plugins/element-plus-icon'
+import ElementPlusIconPlugin from '@/plugins/element-plus-icon'
 import SvgIconPlugin from '@/plugins/svg-icon'
 import i18n from '@/i18n'
 
 createApp(App)
-  .use(ElementPlus)
+  .use(ElementPlusPlugin)
   .use(SvgIconPlugin)
-  .use(ElementPlusIcon)
+  .use(ElementPlusIconPlugin)
   .use(store)
   .use(router)
   .use(i18n)

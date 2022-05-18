@@ -1,16 +1,10 @@
 import store from '@/store'
+import en from './lang/en'
+import zh from './lang/zh'
 import { createI18n } from 'vue-i18n'
 const messages = {
-  en: {
-    msg: {
-      test: 'hello world'
-    }
-  },
-  zh: {
-    msg: {
-      test: '你好世界'
-    }
-  }
+  en,
+  zh
 }
 
 const locale = store.getters.language

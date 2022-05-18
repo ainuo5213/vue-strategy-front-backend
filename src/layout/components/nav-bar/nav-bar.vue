@@ -19,13 +19,13 @@
         <template #dropdown>
           <el-dropdown-menu class="user-dropdown">
             <router-link to="/">
-              <el-dropdown-item> 首页 </el-dropdown-item>
+              <el-dropdown-item>{{ $t('navBar.home') }}</el-dropdown-item>
             </router-link>
             <a target="_blank" href="">
-              <el-dropdown-item>课程主页</el-dropdown-item>
+              <el-dropdown-item>{{ $t('navBar.course') }}</el-dropdown-item>
             </a>
             <el-dropdown-item divided @click="onLogoutBtnClick">
-              退出登录
+              {{ $t('navBar.logout') }}
             </el-dropdown-item>
           </el-dropdown-menu>
         </template>

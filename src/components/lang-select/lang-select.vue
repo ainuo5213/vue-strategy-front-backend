@@ -5,7 +5,7 @@
     @command="handleSelectLanguage"
   >
     <div class="el-dropdown-link">
-      <el-tooltip content="国际化" :effect="effect">
+      <el-tooltip :content="$t('navBar.international')" :effect="effect">
         <svg-icon icon="language"></svg-icon>
       </el-tooltip>
     </div>
@@ -50,7 +50,7 @@ export default {
     function handleSelectLanguage(command: string) {
       i18n.locale.value = command
       store.commit('app/setLanguage', command)
-      ElMessage.success('更新成功')
+      ElMessage.success(i18n.t('toast.switchLangSuccess'))
     }
     return {
       handleSelectLanguage,
