@@ -3,10 +3,10 @@
     <transition-group name="breadcrumb">
       <el-breadcrumb-item :key="item.path" v-for="(item, index) in breadcrumbs">
         <span class="no-redirect" v-if="index === breadcrumbs.length - 1">{{
-          item.title
+          generateTitle(item.title)
         }}</span>
         <span class="redirect" v-else @click="onLinkClick(item)">{{
-          item.title
+          generateTitle(item.title)
         }}</span>
       </el-breadcrumb-item>
     </transition-group>
@@ -17,6 +17,7 @@
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
+import { generateTitle } from '@/utils/i18n'
 
 export default {
   name: 'breadcrumb',
@@ -43,7 +44,8 @@ export default {
     return {
       breadcrumbs,
       menubg,
-      onLinkClick
+      onLinkClick,
+      generateTitle
     }
   }
 }

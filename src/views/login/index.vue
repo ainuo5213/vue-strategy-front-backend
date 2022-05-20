@@ -60,7 +60,6 @@
 <script lang="ts">
 import LangSelect from '@/components/lang-select/lang-select.vue'
 import { ref } from 'vue'
-import SvgIcon from '@/components/base/svg-icon/svg-icon.vue'
 import { validatePassword } from './rules'
 import type { ElForm } from 'element-plus'
 import { useStore } from 'vuex'
@@ -128,7 +127,7 @@ export default {
       loginFromRef
     }
   },
-  components: { SvgIcon, LangSelect }
+  components: { LangSelect }
 }
 </script>
 

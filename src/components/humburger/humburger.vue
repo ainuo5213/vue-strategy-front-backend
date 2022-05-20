@@ -5,11 +5,9 @@
 </template>
 
 <script lang="ts">
-import svgIcon from '@/components/base/svg-icon/svg-icon.vue'
 import { computed } from '@vue/runtime-core'
 import { useStore } from 'vuex'
 export default {
-  components: { svgIcon },
   name: 'hamburger',
   setup() {
     const store = useStore()

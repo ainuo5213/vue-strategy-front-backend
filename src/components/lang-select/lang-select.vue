@@ -24,14 +24,12 @@
 </template>
 
 <script lang="ts">
-import SvgIcon from '@/components/base/svg-icon/svg-icon.vue'
 import { computed, PropType } from 'vue'
 import { useStore } from 'vuex'
 import { useI18n } from 'vue-i18n'
 import { ElMessage } from 'element-plus'
 type Effect = 'dark' | 'light'
 export default {
-  components: { SvgIcon },
   name: 'lang-select',
   props: {
     effect: {
