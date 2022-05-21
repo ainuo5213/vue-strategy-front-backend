@@ -3,9 +3,9 @@
     :collapse="!$store.getters.sideBarOpened"
     :default-active="defaultActive"
     router
-    :background-color="$store.getters.cssVar.menuBg"
-    :text-color="$store.getters.cssVar.menuText"
-    :active-text-color="$store.getters.cssVar.menuActiveText"
+    :background-color="variables.menuBg"
+    :text-color="variables.menuText"
+    :active-text-color="variables.menuActiveText"
     class="menu-container"
   >
     <side-bar-item
@@ -20,6 +20,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { filterRoutes, generateMenus } from '@/utils/route'
 import { computed } from '@vue/runtime-core'
 import SideBarItem from './side-bar-item.vue'
+import { useStore } from 'vuex'
 
 export default {
   name: 'side-menu',
@@ -29,6 +30,7 @@ export default {
   setup() {
     const router = useRouter()
     const route = useRoute()
+    const store = useStore()
     const defaultActive = computed(() => {
       const path = route.path
       return path
@@ -37,9 +39,11 @@ export default {
       const routes = router.getRoutes()
       return generateMenus(filterRoutes(routes))
     })
+    const variables = computed(() => store.getters.cssVar)
     return {
       routes,
-      defaultActive
+      defaultActive,
+      variables
     }
   }
 }

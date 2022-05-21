@@ -1,7 +1,7 @@
-import { elPlusFormulaMap } from '@/constant/formula'
+import { elPlusFormulaMap, customFormulaMap } from '@/constant/formula'
 import cssColorFunction from 'css-color-function'
 import rgbHex from 'rgb-hex'
-export async function setElThemeColor(primaryColor: string) {
+export function setElThemeColor(primaryColor: string) {
   // 生成el的色值表
   const elColors = generateColor(primaryColor, elPlusFormulaMap)
   // 设置el的主题色
@@ -13,6 +13,18 @@ export async function setElThemeColor(primaryColor: string) {
       document.documentElement.style.setProperty(key, value)
     }
   })
+}
+
+export function getCustomThemeColor(primaryColor: string): StringKeyMap {
+  // 生成色值表
+  const colors = generateColor(primaryColor, customFormulaMap)
+  const resultColors: StringKeyMap = {}
+  Object.keys(colors).forEach((key) => {
+    if (key.indexOf('el-color') === -1) {
+      resultColors[key] = colors[key]
+    }
+  })
+  return resultColors
 }
 
 function generateColor(primaryColor: string, formulaMap: StringKeyMap) {

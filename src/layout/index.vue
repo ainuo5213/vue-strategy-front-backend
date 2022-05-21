@@ -24,8 +24,8 @@
 import NavBar from './components/nav-bar/nav-bar.vue'
 import SideBar from './components/side-bar/side-bar.vue'
 import AppMain from './components/app/app.vue'
-import variable from './theme.module.scss'
 import { computed } from '@vue/runtime-core'
+import { useStore } from 'vuex'
 export default {
   name: 'app',
   components: {
@@ -33,8 +33,9 @@ export default {
     SideBar,
     AppMain
   },
-  data() {
-    const variables = computed(() => variable)
+  setup() {
+    const store = useStore()
+    const variables = computed(() => store.getters.cssVar)
     return {
       variables
     }

@@ -7,9 +7,10 @@
 <script lang="ts">
 import { ElConfigProvider } from 'element-plus'
 import { useStore } from 'vuex'
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 import en from 'element-plus/lib/locale/lang/en'
+import { setElThemeColor } from '@/utils/theme'
 export default {
   name: 'App',
   components: {
@@ -21,6 +22,14 @@ export default {
       const language = store.getters.language
       return language === 'en' ? en : zhCn
     })
+    const mainColor = store.getters.mainColor
+
+    onMounted(() => {
+      if (mainColor) {
+        setElThemeColor(mainColor)
+      }
+    })
+
     return {
       language
     }
