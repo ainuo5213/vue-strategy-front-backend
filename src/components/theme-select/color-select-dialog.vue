@@ -26,7 +26,7 @@
 <script lang="ts">
 import { PropType, ref } from 'vue-demi'
 import { useStore } from 'vuex'
-import { generateNewStyle, writeNewStyle } from '@/utils/theme'
+import { setElThemeColor } from '@/utils/theme'
 const predefineColors = [
   '#ff4500',
   '#ff8c00',
@@ -61,8 +61,7 @@ export default {
     async function onConfirm() {
       store.commit('theme/setMainColor', color.value)
       emit('update:modelValue', false)
-      const newStyle = await generateNewStyle(color.value)
-      writeNewStyle(newStyle)
+      setElThemeColor(color.value)
     }
 
     return {
