@@ -1,8 +1,10 @@
 import { LANGUAGE_KEY } from '@/constant/app'
+import { THEME_MAIN_COLOR_KEY } from '@/constant/theme'
 import { TOKEN_KEY, USER_INFO_KEY } from '@/constant/user'
 import { clear, set } from '@/utils/storage'
 import { Store } from 'vuex'
 import { RootState } from './state'
+
 export function watchToken(store: Store<RootState>) {
   store.watch(
     (state) => state.user.token,
@@ -37,6 +39,19 @@ export function watchLang(store: Store<RootState>) {
         set(LANGUAGE_KEY, newValue)
       } else {
         clear(LANGUAGE_KEY)
+      }
+    }
+  )
+}
+
+export function watchThemeColor(store: Store<RootState>) {
+  store.watch(
+    (state) => state.theme.mainColor,
+    (newValue) => {
+      if (newValue) {
+        set(THEME_MAIN_COLOR_KEY, newValue)
+      } else {
+        clear(THEME_MAIN_COLOR_KEY)
       }
     }
   )

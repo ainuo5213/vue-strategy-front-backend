@@ -7,7 +7,6 @@ import store from './store'
 import ElementPlusIconPlugin from '@/plugins/element-plus-icon'
 import SvgIconPlugin from '@/plugins/svg-icon'
 import i18n from '@/i18n'
-
 createApp(App)
   .use(ElementPlusPlugin)
   .use(SvgIconPlugin)

@@ -3,8 +3,9 @@
     <humburger class="hamburger-container"></humburger>
     <breadcrumb class="breadcrumb-container"></breadcrumb>
     <div class="right-menu">
+      <theme-select class="right-menu-item hover-effect"></theme-select>
       <lang-select
-        :effect="'dark'"
+        effect="dark"
         class="right-menu-item hover-effect"
       ></lang-select>
       <el-dropdown trigger="click" class="avatar-container">
@@ -42,13 +43,15 @@ import { ElMessage } from 'element-plus'
 import Breadcrumb from '@/components/breadcrumb/breadcrumb.vue'
 import Humburger from '@/components/humburger/humburger.vue'
 import langSelect from '@/components/lang-select/lang-select.vue'
+import ThemeSelect from '@/components/theme-select/theme-select.vue'
 
 export default {
   name: 'nav-bar',
   components: {
     Humburger,
     Breadcrumb,
-    langSelect
+    langSelect,
+    ThemeSelect
   },
   setup() {
     const store: Store<RootState> = useStore()
@@ -96,7 +99,7 @@ export default {
 
     ::v-deep(.right-menu-item) {
       display: inline-block;
-      padding: 0 18px 00;
+      padding: 0 18px 0 0;
       font-size: 24px;
       color: #5a5e16;
       vertical-align: text-bottom;

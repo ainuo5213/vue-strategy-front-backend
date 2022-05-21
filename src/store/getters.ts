@@ -3,7 +3,7 @@ import { GetterTree } from 'vuex'
 import { isPlainObject } from '@/utils/is'
 import variables from '@/layout/theme.module.scss'
 
-export const user: GetterTree<RootState, RootState> = {
+const getter: GetterTree<RootState, RootState> = {
   token: (state) => state.user.token,
   userInfo: (state) => {
     const userInfo = state.user.userInfo
@@ -14,5 +14,8 @@ export const user: GetterTree<RootState, RootState> = {
   },
   cssVar: () => variables,
   sideBarOpened: (state) => state.app.sideBarOpened,
-  language: (state) => state.app.language
+  language: (state) => state.app.language,
+  mainColor: (state) => state.theme.mainColor
 }
+
+export default getter
