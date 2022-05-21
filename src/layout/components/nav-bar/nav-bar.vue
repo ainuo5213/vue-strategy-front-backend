@@ -3,6 +3,7 @@
     <humburger class="hamburger-container"></humburger>
     <breadcrumb class="breadcrumb-container"></breadcrumb>
     <div class="right-menu">
+      <screen-full class="right-menu-item hover-effect"></screen-full>
       <theme-select class="right-menu-item hover-effect"></theme-select>
       <lang-select
         effect="dark"
@@ -44,6 +45,7 @@ import Breadcrumb from '@/components/breadcrumb/breadcrumb.vue'
 import Humburger from '@/components/humburger/humburger.vue'
 import langSelect from '@/components/lang-select/lang-select.vue'
 import ThemeSelect from '@/components/theme-select/theme-select.vue'
+import ScreenFull from '@/components/screenfull/screenfull.vue'
 
 export default {
   name: 'nav-bar',
@@ -51,7 +53,8 @@ export default {
     Humburger,
     Breadcrumb,
     langSelect,
-    ThemeSelect
+    ThemeSelect,
+    ScreenFull
   },
   setup() {
     const store: Store<RootState> = useStore()
