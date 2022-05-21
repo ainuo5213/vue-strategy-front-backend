@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts">
-import { ref } from 'vue-demi'
+import { ref } from 'vue'
 import ColorSelectDialog from './color-select-dialog.vue'
 export default {
   name: 'theme-select',

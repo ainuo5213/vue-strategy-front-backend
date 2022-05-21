@@ -19,6 +19,7 @@ import { PropType } from 'vue'
 import { RouteRecordRaw } from 'vue-router'
 import MenuItem from './menu-item.vue'
 export default {
+  name: 'side-bar-item',
   components: {
     MenuItem
   },
@@ -27,8 +28,7 @@ export default {
       type: Object as PropType<RouteRecordRaw>,
       required: true
     }
-  },
-  name: 'side-bar-item'
+  }
 }
 </script>
 

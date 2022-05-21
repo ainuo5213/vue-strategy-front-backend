@@ -36,6 +36,7 @@ import { generateRoutes, SearchRoute } from './fuse'
 import { watchLangChange } from '@/utils/i18n'
 
 export default {
+  name: 'header-search',
   setup() {
     const router = useRouter()
     const isShow = ref(false)

@@ -8,6 +8,7 @@ import { PropType } from 'vue'
 import { generateTitle } from '@/utils/i18n'
 
 export default {
+  name: 'menu-item',
   props: {
     title: {
       type: String as PropType<string>,

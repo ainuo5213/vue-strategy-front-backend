@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { PropType, ref } from 'vue-demi'
+import { PropType, ref } from 'vue'
 import { useStore } from 'vuex'
 import { setElThemeColor } from '@/utils/theme'
 const predefineColors = [

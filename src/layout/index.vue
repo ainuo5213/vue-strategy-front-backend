@@ -27,7 +27,7 @@ import AppMain from './components/app/app.vue'
 import { computed } from '@vue/runtime-core'
 import { useStore } from 'vuex'
 export default {
-  name: 'app',
+  name: 'layout',
   components: {
     NavBar,
     SideBar,

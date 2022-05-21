@@ -8,6 +8,7 @@
 import { ref } from 'vue'
 import screenFule from 'screenfull'
 export default {
+  name: 'screenfull',
   setup() {
     const fullState = ref(false)
     async function onToggleFullScreen() {
