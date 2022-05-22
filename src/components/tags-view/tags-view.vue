@@ -1,5 +1,5 @@
 <template>
-  <div class="tags-view-container">
+  <div class="tags-view-container" id="guide-tags">
     <router-link
       v-for="tag in tags"
       :key="tag.path"
@@ -28,7 +28,7 @@
 <script lang="ts">
 import ContextMenu from '@/components/context-menu/context-menu.vue'
 import { TagView } from '@/store/app'
-import { computed, ref, watch } from '@vue/runtime-core'
+import { computed, ref } from '@vue/runtime-core'
 import { useStore } from 'vuex'
 import { ContextMenuData } from '@/components/context-menu/contextMenu'
 import { useI18n } from 'vue-i18n'

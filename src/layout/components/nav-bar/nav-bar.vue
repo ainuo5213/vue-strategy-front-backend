@@ -1,8 +1,9 @@
 <template>
   <div class="navbar">
-    <humburger class="hamburger-container"></humburger>
-    <breadcrumb class="breadcrumb-container"></breadcrumb>
+    <hamburger class="hamburger-container"></hamburger>
+    <breadcrumb id="guide-breadcrumb" class="breadcrumb-container"></breadcrumb>
     <div class="right-menu">
+      <guide class="right-menu-item hover-effect"></guide>
       <header-search class="right-menu-item hover-effect"></header-search>
       <screen-full class="right-menu-item hover-effect"></screen-full>
       <theme-select class="right-menu-item hover-effect"></theme-select>
@@ -43,21 +44,23 @@ import { computed } from '@vue/runtime-core'
 import { Store, useStore } from 'vuex'
 import { ElMessage } from 'element-plus'
 import Breadcrumb from '@/components/breadcrumb/breadcrumb.vue'
-import Humburger from '@/components/humburger/humburger.vue'
+import Hamburger from '@/components/hamburger/hamburger.vue'
 import langSelect from '@/components/lang-select/lang-select.vue'
 import ThemeSelect from '@/components/theme-select/theme-select.vue'
 import ScreenFull from '@/components/screenfull/screenfull.vue'
 import HeaderSearch from '@/components/header-search/header-search.vue'
+import Guide from '@/components/guide/guide.vue'
 
 export default {
   name: 'nav-bar',
   components: {
-    Humburger,
+    Hamburger,
     Breadcrumb,
     langSelect,
     ThemeSelect,
     ScreenFull,
-    HeaderSearch
+    HeaderSearch,
+    Guide
   },
   setup() {
     const store: Store<RootState> = useStore()
