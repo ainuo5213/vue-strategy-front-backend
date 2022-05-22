@@ -41,7 +41,10 @@ export default {
   tagsView: {
     refresh: 'Refresh',
     closeRight: 'Close Rights',
-    closeOther: 'Close Others'
+    closeLeft: 'Close Lefts',
+    closeCurrent: 'Close Current',
+    closeOther: 'Close Others',
+    closeAll: 'Close All'
   },
   theme: {
     themeColorChange: 'Theme Color Change',

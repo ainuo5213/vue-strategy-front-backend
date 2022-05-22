@@ -21,7 +21,17 @@ const getter: GetterTree<RootState, RootState> = {
   },
   sideBarOpened: (state) => state.app.sideBarOpened,
   language: (state) => state.app.language,
-  mainColor: (state) => state.theme.mainColor
+  mainColor: (state) => state.theme.mainColor,
+  tagsViewList: (state) => state.app.tagsViewList,
+  currentTagView: (state) => {
+    const currentTagView = state.app.tagsViewList.find(
+      (item) => item.path === state.app.currentTagViewPath
+    )
+    if (currentTagView) {
+      return currentTagView
+    }
+    return null
+  }
 }
 
 export default getter

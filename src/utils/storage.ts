@@ -1,6 +1,6 @@
 import { isObject } from './is'
 
-export function get<T>(key: string): T | unknown {
+export function get<T>(key: string): T | string | null {
   const value = localStorage.getItem(key)
   try {
     if (!value) {

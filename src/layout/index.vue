@@ -13,6 +13,7 @@
       <div class="fixed-header">
         <!-- 顶部的 navbar -->
         <nav-bar />
+        <tags-view></tags-view>
       </div>
       <!-- 内容区 -->
       <app-main />
@@ -26,12 +27,14 @@ import SideBar from './components/side-bar/side-bar.vue'
 import AppMain from './components/app/app.vue'
 import { computed } from '@vue/runtime-core'
 import { useStore } from 'vuex'
+import TagsView from '@/components/tags-view/tags-view.vue'
 export default {
   name: 'layout',
   components: {
     NavBar,
     SideBar,
-    AppMain
+    AppMain,
+    TagsView
   },
   setup() {
     const store = useStore()

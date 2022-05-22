@@ -6,6 +6,10 @@ import userManage from './user-manage'
 import roleList from './role-list'
 
 const routes: RouteRecordRaw[] = [
+  {
+    path: '/',
+    redirect: '/user'
+  },
   articleCreate,
   article,
   permissionList,

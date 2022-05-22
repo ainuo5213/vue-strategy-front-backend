@@ -41,7 +41,10 @@ export default {
   tagsView: {
     refresh: '刷新',
     closeRight: '关闭右侧',
-    closeOther: '关闭其他'
+    closeLeft: '关闭左侧',
+    closeCurrent: '关闭当前',
+    closeOther: '关闭其他',
+    closeAll: '全部关闭'
   },
   theme: {
     themeColorChange: '主题色更换',
