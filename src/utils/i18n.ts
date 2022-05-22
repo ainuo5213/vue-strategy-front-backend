@@ -10,6 +10,9 @@ export function watchLangChange(...cbs: ((language: string) => void)[]) {
     () => store.getters.language,
     () => {
       cbs.forEach((cb) => cb(store.getters.language))
+    },
+    {
+      immediate: true
     }
   )
 }

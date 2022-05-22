@@ -28,10 +28,11 @@
 <script lang="ts">
 import ContextMenu from '@/components/context-menu/context-menu.vue'
 import { TagView } from '@/store/app'
-import { computed, ref } from '@vue/runtime-core'
+import { computed, ref, watch } from '@vue/runtime-core'
 import { useStore } from 'vuex'
 import { ContextMenuData } from '@/components/context-menu/contextMenu'
 import { useI18n } from 'vue-i18n'
+import { watchLangChange } from '@/utils/i18n'
 export default {
   components: {
     ContextMenu
@@ -107,32 +108,36 @@ export default {
       })
       clearContextMenuData()
     }
-    const menuData: ContextMenuData[] = [
-      {
-        title: i18n.t('tagsView.refresh'),
-        click: onRefresh
-      },
-      {
-        title: i18n.t('tagsView.closeRight'),
-        click: onCloseRight
-      },
-      {
-        title: i18n.t('tagsView.closeLeft'),
-        click: onCloseLeft
-      },
-      {
-        title: i18n.t('tagsView.closeCurrent'),
-        click: onCloseCurrent
-      },
-      {
-        title: i18n.t('tagsView.closeOther'),
-        click: onCloseOther
-      },
-      {
-        title: i18n.t('tagsView.closeAll'),
-        click: onCloseAll
-      }
-    ]
+    const menuData = ref<ContextMenuData[]>([])
+
+    watchLangChange(() => {
+      menuData.value = [
+        {
+          title: i18n.t('tagsView.refresh'),
+          click: onRefresh
+        },
+        {
+          title: i18n.t('tagsView.closeRight'),
+          click: onCloseRight
+        },
+        {
+          title: i18n.t('tagsView.closeLeft'),
+          click: onCloseLeft
+        },
+        {
+          title: i18n.t('tagsView.closeCurrent'),
+          click: onCloseCurrent
+        },
+        {
+          title: i18n.t('tagsView.closeOther'),
+          click: onCloseOther
+        },
+        {
+          title: i18n.t('tagsView.closeAll'),
+          click: onCloseAll
+        }
+      ]
+    })
     return {
       tags,
       currentTag,
