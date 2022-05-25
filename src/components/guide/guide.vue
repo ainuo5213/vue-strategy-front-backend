@@ -9,7 +9,7 @@
 <script lang="ts">
 import Driver from 'driver.js'
 import 'driver.js/dist/driver.min.css'
-import { onMounted, ref } from '@vue/runtime-core'
+import { ref } from '@vue/runtime-core'
 import { useI18n } from 'vue-i18n'
 import { getSteps } from './steps'
 import { watchLangChange } from '@/utils/i18n'
@@ -18,13 +18,14 @@ export default {
   setup() {
     const i18n = useI18n()
     const driver = ref<Driver>()
-    onMounted(() => {
-      driver.value = createDriver()
-    })
-
-    watchLangChange(() => {
-      driver.value = createDriver()
-    })
+    watchLangChange(
+      () => {
+        driver.value = createDriver()
+      },
+      {
+        immediate: true
+      }
+    )
 
     function createDriver() {
       return new Driver({

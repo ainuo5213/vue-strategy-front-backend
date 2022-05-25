@@ -1,18 +1,21 @@
 import i18n from '@/i18n'
 import store from '@/store'
-import { watch } from 'vue'
+import { watch, WatchOptions } from 'vue'
 export function generateTitle(title: string) {
   return i18n.global.t(`route.${title}`)
 }
 
-export function watchLangChange(...cbs: ((language: string) => void)[]) {
+export function watchLangChange(
+  cb: (language: string) => void,
+  option: WatchOptions = {
+    immediate: false
+  }
+) {
   watch(
     () => store.getters.language,
     () => {
-      cbs.forEach((cb) => cb(store.getters.language))
+      cb(store.getters.language)
     },
-    {
-      immediate: true
-    }
+    option
   )
 }

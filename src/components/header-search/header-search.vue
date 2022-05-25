@@ -61,10 +61,15 @@ export default {
       }
     })
     // 语言变化时，重新初始化fuse模糊查询器
-    watchLangChange(() => {
-      searchPool = computed(genSearchRoutes)
-      fuse = initFuse(searchPool.value)
-    })
+    watchLangChange(
+      () => {
+        searchPool = computed(genSearchRoutes)
+        fuse = initFuse(searchPool.value)
+      },
+      {
+        immediate: false
+      }
+    )
     function initFuse(searchPool: SearchRoute[]) {
       const fuse = new Fuse(searchPool, {
         shouldSort: true,

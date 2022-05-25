@@ -19,8 +19,10 @@ export interface CustomResponse<T> {
 
 service.interceptors.request.use(
   async (config) => {
+    const language = store.getters.language || 'zh'
     config.headers = {
       'Content-Type': 'application/json;charset=UTF-8',
+      'Accept-Language': language,
       icode: dynamicCode
     }
     if (store.getters.token) {

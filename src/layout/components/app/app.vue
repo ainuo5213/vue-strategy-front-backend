@@ -57,13 +57,26 @@ export default {
         immediate: true
       }
     )
-    watchLangChange(() => {
-      const tagsViewList = store.getters.tagsViewList
-      tagsViewList.forEach((r: TagView) => {
-        r.title = generateTitle(r)
-      })
-      store.commit('app/reloadTagsViewList', tagsViewList)
-    })
+    watchLangChange(
+      () => {
+        const tagsViewList = store.getters.tagsViewList
+        tagsViewList.forEach((r: TagView) => {
+          r.title = generateTitle(r)
+        })
+        store.commit('app/reloadTagsViewList', tagsViewList)
+      },
+      {
+        immediate: false
+      }
+    )
+    watchLangChange(
+      () => {
+        store.dispatch('user/getUserInfo')
+      },
+      {
+        immediate: false
+      }
+    )
   }
 }
 </script>

@@ -110,34 +110,39 @@ export default {
     }
     const menuData = ref<ContextMenuData[]>([])
 
-    watchLangChange(() => {
-      menuData.value = [
-        {
-          title: i18n.t('tagsView.refresh'),
-          click: onRefresh
-        },
-        {
-          title: i18n.t('tagsView.closeRight'),
-          click: onCloseRight
-        },
-        {
-          title: i18n.t('tagsView.closeLeft'),
-          click: onCloseLeft
-        },
-        {
-          title: i18n.t('tagsView.closeCurrent'),
-          click: onCloseCurrent
-        },
-        {
-          title: i18n.t('tagsView.closeOther'),
-          click: onCloseOther
-        },
-        {
-          title: i18n.t('tagsView.closeAll'),
-          click: onCloseAll
-        }
-      ]
-    })
+    watchLangChange(
+      () => {
+        menuData.value = [
+          {
+            title: i18n.t('tagsView.refresh'),
+            click: onRefresh
+          },
+          {
+            title: i18n.t('tagsView.closeRight'),
+            click: onCloseRight
+          },
+          {
+            title: i18n.t('tagsView.closeLeft'),
+            click: onCloseLeft
+          },
+          {
+            title: i18n.t('tagsView.closeCurrent'),
+            click: onCloseCurrent
+          },
+          {
+            title: i18n.t('tagsView.closeOther'),
+            click: onCloseOther
+          },
+          {
+            title: i18n.t('tagsView.closeAll'),
+            click: onCloseAll
+          }
+        ]
+      },
+      {
+        immediate: true
+      }
+    )
     return {
       tags,
       currentTag,
