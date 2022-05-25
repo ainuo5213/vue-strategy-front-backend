@@ -38,8 +38,7 @@ export default {
   setup() {
     const route = useRoute()
     const router = useRouter()
-    const active = computed(() => route.query.active || 'feature')
-    const activeName = ref(active)
+    const activeName = computed(() => route.query.active || 'feature')
     const loading = ref(false)
     const features = ref<Array<IFeatureResultItem>>([])
     async function getUserFeature() {
