@@ -1,3 +1,4 @@
+import { StringKeyMap } from '@/types'
 export const elPlusFormulaMap: StringKeyMap = {
   '--el-color-primary-light-3': 'color(primary tint(30%))',
   '--el-color-primary-light-5': 'color(primary tint(50%))',

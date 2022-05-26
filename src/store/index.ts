@@ -7,9 +7,9 @@ import {
 } from '@/constant/app'
 import { THEME_MAIN_COLOR_KEY } from '@/constant/theme'
 import { TOKEN_KEY, USER_INFO_KEY } from '@/constant/user'
-import userModule from './user'
-import appModule from './app'
-import themeModule from './theme'
+import userModule from './user/index'
+import appModule from './app/index'
+import themeModule from './theme/index'
 import getters from './getters'
 import { watchStoreChange } from './watcher'
 const store = createStore<RootState>({

@@ -6,7 +6,7 @@ declare module '*.vue' {
 }
 
 declare module '*.scss' {
-  const classes: StringKeyMap
+  const classes: { [key: string]: string }
   export default classes
 }
 

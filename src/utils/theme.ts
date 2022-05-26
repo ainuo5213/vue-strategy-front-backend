@@ -1,4 +1,5 @@
 import { elPlusFormulaMap, customFormulaMap } from '@/constant/formula'
+import { StringKeyMap } from '@/types'
 import cssColorFunction from 'css-color-function'
 import rgbHex from 'rgb-hex'
 export function setElThemeColor(primaryColor: string) {

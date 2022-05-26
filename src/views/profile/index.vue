@@ -61,7 +61,7 @@ export default {
       }
     )
 
-    function onTabChange(tabName) {
+    function onTabChange(tabName: string) {
       router.push({
         query: {
           active: tabName
