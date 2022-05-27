@@ -14,6 +14,7 @@ import {
   RouteRecordRaw
 } from 'vue-router'
 import router from '@/router'
+import { swap } from '@/utils/math'
 export interface TagView {
   fullPath: string
   hash: string
@@ -34,6 +35,10 @@ export interface AppState {
   language: string
   tagsViewList: TagView[]
   currentTagViewPath: string
+}
+export interface ExchangeTagView {
+  oldIndex: number
+  newIndex: number
 }
 const tags = get<TagView>(TAGS_VIEW_KEY) as TagView[] | null
 const appModule: Module<AppState, RootState> = {
@@ -152,6 +157,9 @@ const appModule: Module<AppState, RootState> = {
       router.push({
         path: state.currentTagViewPath
       })
+    },
+    exchangeTagView(state: AppState, payload: ExchangeTagView) {
+      swap(state.tagsViewList, payload.newIndex, payload.oldIndex)
     }
   }
 }

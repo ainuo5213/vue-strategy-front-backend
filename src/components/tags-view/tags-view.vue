@@ -1,22 +1,33 @@
 <template>
   <div class="tags-view-container" id="guide-tags">
-    <router-link
-      v-for="tag in tags"
-      :key="tag.path"
-      class="tags-view-item"
-      :class="{
-        active: isActive(tag.path)
-      }"
-      :to="{ path: tag.path }"
-      :style="{
-        backgroundColor: isActive(tag.path) ? cssVar.menuBg : '',
-        borderColor: isActive(tag.path) ? cssVar.menuBg : ''
-      }"
-      @contextmenu.prevent.stop="onContextMenu(tag, $event)"
+    <draggable
+      v-model="tags"
+      @end="onDragEnd"
+      :animation="400"
+      easing="cubic-bezier(.18,.69,.96,.35)"
     >
-      <span class="title">{{ tag.title }}</span>
-      <el-icon @click.stop.prevent="onCloseIconClick(tag)"><close /></el-icon>
-    </router-link>
+      <template #item="{ element: tag }">
+        <router-link
+          :key="tag.path"
+          class="tags-view-item"
+          :class="{
+            active: isActive(tag.path)
+          }"
+          :to="{ path: tag.path }"
+          :style="{
+            backgroundColor: isActive(tag.path) ? cssVar.menuBg : '',
+            borderColor: isActive(tag.path) ? cssVar.menuBg : ''
+          }"
+          draggable
+          @contextmenu.prevent.stop="onContextMenu(tag, $event)"
+        >
+          <span class="title">{{ tag.title }}</span>
+          <el-icon @click.stop.prevent="onCloseIconClick(tag)"
+            ><close
+          /></el-icon>
+        </router-link>
+      </template>
+    </draggable>
   </div>
   <context-menu
     v-model="visible"
@@ -33,9 +44,11 @@ import { useStore } from 'vuex'
 import { ContextMenuData } from '@/components/context-menu/contextMenu'
 import { useI18n } from 'vue-i18n'
 import { watchLangChange } from '@/utils/i18n'
+import Draggable from 'vuedraggable'
 export default {
   components: {
-    ContextMenu
+    ContextMenu,
+    Draggable
   },
   setup() {
     const store = useStore()
@@ -143,6 +156,13 @@ export default {
         immediate: true
       }
     )
+
+    function onDragEnd(data) {
+      store.commit('app/exchangeTagView', {
+        oldIndex: data.oldIndex,
+        newIndex: data.newIndex
+      })
+    }
     return {
       tags,
       currentTag,
@@ -152,7 +172,8 @@ export default {
       onContextMenu,
       visible,
       menuData,
-      contextMenuPos
+      contextMenuPos,
+      onDragEnd
     }
   }
 }
@@ -218,5 +239,9 @@ export default {
       }
     }
   }
+}
+
+.flip-list-move {
+  transition: all 0.8s ease;
 }
 </style>
