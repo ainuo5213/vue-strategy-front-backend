@@ -1,3 +1,4 @@
+import layout from '@/layout/index.vue'
 import { RouteRecordRaw } from 'vue-router'
 import articleCreate from './article-create'
 import article from './article'
@@ -8,7 +9,18 @@ import roleList from './role-list'
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    redirect: '/user'
+    component: layout,
+    redirect: '/home',
+    name: 'home',
+    meta: {
+      title: 'home'
+    },
+    children: [
+      {
+        path: '/home',
+        component: () => import('@/views/home/index.vue')
+      }
+    ]
   },
   articleCreate,
   article,

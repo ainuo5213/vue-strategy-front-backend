@@ -32,3 +32,18 @@ export function getManageUsers(
     params
   })
 }
+
+export interface NormalizedUser {
+  username: string
+  mobile: string
+  role: string
+  openTime: string | number
+}
+
+export function userBatchImport(data: NormalizedUser[]): Promise<null> {
+  return request({
+    url: '/user-manage/batch/import',
+    method: 'post',
+    data
+  })
+}

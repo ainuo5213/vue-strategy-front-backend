@@ -13,6 +13,7 @@ import {
   RouteRecordName,
   RouteRecordRaw
 } from 'vue-router'
+import router from '@/router'
 export interface TagView {
   fullPath: string
   hash: string
@@ -26,7 +27,7 @@ export interface TagView {
 }
 export interface RemoveTagView {
   type: 'current' | 'other' | 'left' | 'right' | 'all'
-  tagView?: TagView
+  tagView: TagView
 }
 export interface AppState {
   sideBarOpened: boolean
@@ -74,16 +75,22 @@ const appModule: Module<AppState, RootState> = {
       switch (payload.type) {
         case 'current': {
           const tag = payload.tagView!
+          if (
+            state.tagsViewList.length === 1 &&
+            (tag.path === '/' || tag.path === '/home')
+          ) {
+            return
+          }
           const index = state.tagsViewList.findIndex(
             (item) => item.path === tag.path
           )
           if (tag.path === state.currentTagViewPath) {
             if (index === 0) {
               state.currentTagViewPath =
-                state.tagsViewList[index + 1]?.path || ''
+                state.tagsViewList[index + 1]?.path || '/'
             } else {
               state.currentTagViewPath =
-                state.tagsViewList[index - 1]?.path || ''
+                state.tagsViewList[index - 1]?.path || '/'
             }
           }
           state.tagsViewList.splice(index, 1)
@@ -142,6 +149,9 @@ const appModule: Module<AppState, RootState> = {
           break
         }
       }
+      router.push({
+        path: state.currentTagViewPath
+      })
     }
   }
 }

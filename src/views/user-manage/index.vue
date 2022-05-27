@@ -63,6 +63,7 @@
       </el-table>
       <div class="pagination-container">
         <el-pagination
+          background
           class="pagination"
           @current-change="onCurrentPageChange"
           @size-change="onPageSizeChange"
@@ -85,7 +86,7 @@ import {
   IManageUserInfoResultDTO
 } from '@/api/user-manage'
 import { PaginationWrapper } from '@/types'
-import { ref } from 'vue'
+import { onActivated, ref } from 'vue'
 import { watchLangChange } from '@/utils/i18n'
 import { useRouter } from 'vue-router'
 export default {
@@ -114,14 +115,19 @@ export default {
         immediate: true
       }
     )
+    onActivated(() => {
+      gerUsers()
+    })
 
     function onPageSizeChange(newPageSize: number) {
       requestParameter.value.size = newPageSize
+      requestParameter.value.page = 1
       gerUsers()
     }
 
     function onCurrentPageChange(currentPage: number) {
       requestParameter.value.page = currentPage
+      gerUsers()
     }
 
     function onImportExcelClick() {

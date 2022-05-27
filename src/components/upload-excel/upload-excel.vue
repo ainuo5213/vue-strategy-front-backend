@@ -1,12 +1,5 @@
 <template>
   <div class="upload-excel">
-    <input
-      ref="excelUploadInputRef"
-      class="excel-upload-input"
-      type="file"
-      accept=".xlsx, .xls"
-      @change="onChange"
-    />
     <div
       class="drop"
       draggable
@@ -26,6 +19,7 @@ import { read, utils } from 'xlsx'
 import { PropType, ref } from 'vue'
 import { getHeaderRow, isExcel } from '@/utils/excel'
 import { ElMessage } from 'element-plus'
+import { ExcelBody, ExcelHeader } from './types'
 
 export default {
   props: {
@@ -44,7 +38,11 @@ export default {
     const excelUploadInputRef = ref<HTMLInputElement>()
     const readingFile = ref(false)
     function onUploadClick() {
-      excelUploadInputRef.value!.click()
+      const input = document.createElement('input')
+      input.type = 'file'
+      input.accept = '.xlsx, .xls'
+      input.addEventListener('change', onChange)
+      input.click()
     }
 
     function onChange(e: Event) {
@@ -88,14 +86,15 @@ export default {
       fileReader.onload = (e: ProgressEvent<FileReader>) => {
         const data = (e.target as any).result
         const workBook = read(data, {
-          type: 'array'
+          type: 'array',
+          cellDates: true
         })
         const firstSheetName = workBook.SheetNames[0]
         const workSheet = workBook.Sheets[firstSheetName]
         // 解析表头
-        const header = getHeaderRow(workSheet)
+        const header: ExcelHeader = getHeaderRow(workSheet)
         // 解析数据体
-        const body = utils.sheet_to_json(workSheet)
+        const body: ExcelBody = utils.sheet_to_json(workSheet)
         generateData({ header, body })
         readingFile.value = false
       }
