@@ -47,3 +47,19 @@ export function userBatchImport(data: NormalizedUser[]): Promise<null> {
     data
   })
 }
+
+export function deleteUser(userId: string): Promise<null> {
+  return request({
+    url: `/user-manage/detele/${userId}`,
+    method: 'get'
+  })
+}
+
+export function getTotalUser(): Promise<
+  PaginationWrapper<IManageUserInfoResultDTO>
+  // eslint-disable-next-line indent
+> {
+  return request({
+    url: '/user-manage/all-list'
+  })
+}

@@ -140,12 +140,17 @@ export default {
     removeSuccess: 'Deleted successfully',
     title: 'Export to excel',
     placeholder: 'excel file name',
+    errorExcelName: 'Please input excel file name',
     defaultName: 'Staff Management Form',
+    genExceling: 'Generating Excel...',
+    genExcelTitle: 'Tip',
     close: 'Cancel',
     confirm: 'Export',
     importSuccess: ' Employee data imported successfully',
     dialogTitle1: 'Are you sure you want to delete the user ',
     dialogTitle2: ' Is it?',
+    dialogTitle0: 'Warning',
+    removeSuccessTitle: 'Prompt',
     roleDialogTitle: 'Configure roles'
   },
   role: {

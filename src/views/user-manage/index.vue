@@ -5,11 +5,18 @@
         <el-button type="primary" @click="onImportExcelClick">{{
           $t('excel.importExcel')
         }}</el-button>
-        <el-button type="success">{{ $t('excel.exportExcel') }}</el-button>
+        <el-button type="success" @click="onExportExcelClick">{{
+          $t('excel.exportExcel')
+        }}</el-button>
       </div>
     </el-card>
     <el-card>
-      <el-table :data="tableManageData.list" border style="width: 100%">
+      <el-table
+        :data="tableManageData.list"
+        border
+        style="width: 100%"
+        v-loading="loading"
+      >
         <el-table-column label="#" type="index"></el-table-column>
         <el-table-column
           :label="$t('excel.name')"
@@ -48,16 +55,19 @@
           </template>
         </el-table-column>
         <el-table-column :label="$t('excel.action')" fixed="right" width="240">
-          <template #default>
+          <template #default="{ row }">
             <el-button type="primary" size="small">{{
               $t('excel.show')
             }}</el-button>
             <el-button type="info" size="small">{{
               $t('excel.showRole')
             }}</el-button>
-            <el-button type="danger" size="small">{{
-              $t('excel.remove')
-            }}</el-button>
+            <el-button
+              @click="onUserRemoveBtnClick(row)"
+              type="danger"
+              size="small"
+              >{{ $t('excel.remove') }}</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
@@ -83,16 +93,26 @@ import { pageSizes } from '@/config/pagination'
 import {
   getManageUsers,
   IManageUserRequestParameter,
-  IManageUserInfoResultDTO
+  IManageUserInfoResultDTO,
+  deleteUser,
+  getTotalUser,
+  IManageRoleInfoResultDTO
 } from '@/api/user-manage'
 import { PaginationWrapper } from '@/types'
 import { onActivated, ref } from 'vue'
 import { watchLangChange } from '@/utils/i18n'
 import { useRouter } from 'vue-router'
+import { ElMessage, ElMessageBox, ElNotification } from 'element-plus'
+import { useI18n } from 'vue-i18n'
+import { formatJson, json2Excel } from './export'
+import dayjs from 'dayjs'
+;(window as any).dayjs = dayjs
 export default {
   name: 'user-manage',
   setup() {
     const router = useRouter()
+    const i18n = useI18n()
+    const loading = ref(false)
     const requestParameter = ref<IManageUserRequestParameter>({
       size: 5,
       page: 1
@@ -104,8 +124,16 @@ export default {
       total: 0
     })
     async function gerUsers() {
-      const data = await getManageUsers(requestParameter.value)
-      tableManageData.value = data
+      loading.value = true
+      try {
+        const data = await getManageUsers(requestParameter.value)
+        tableManageData.value = data
+      } catch {
+        tableManageData.value.list = []
+        tableManageData.value.total = 0
+      } finally {
+        loading.value = false
+      }
     }
     watchLangChange(
       () => {
@@ -136,13 +164,87 @@ export default {
       })
     }
 
+    async function onUserRemoveBtnClick(user: IManageUserInfoResultDTO) {
+      const warnInfo =
+        i18n.t('excel.dialogTitle1') +
+        user.username +
+        i18n.t('excel.dialogTitle2')
+      await ElMessageBox.confirm(warnInfo, i18n.t('excel.dialogTitle0'), {
+        type: 'warning'
+      })
+      await deleteUser(user._id)
+      ElNotification({
+        title: i18n.t('excel.removeSuccessTitle'),
+        message: i18n.t('excel.removeSuccess'),
+        type: 'success'
+      })
+      gerUsers()
+    }
+
+    function onExportExcelClick() {
+      ElMessageBox.prompt(i18n.t('excel.genExcelTitle'), {
+        showCancelButton: true,
+        showInput: true,
+        inputPlaceholder: i18n.t('excel.placeholder'),
+        inputValidator(value: string) {
+          console.log(value.length > 0)
+          return value.length > 0
+        },
+        inputErrorMessage: i18n.t('excel.errorExcelName'),
+        inputValue: i18n.t('excel.defaultName'),
+        beforeClose: async (action, instance, done) => {
+          if (action === 'confirm') {
+            if (!instance.inputValidator(instance.inputValue)) {
+              return
+            }
+            instance.confirmButtonLoading = true
+            instance.confirmButtonText = i18n.t('excel.genExceling')
+            try {
+              await exportExcel(instance.inputValue)
+            } catch (err: any) {
+              ElMessage.error(err.message)
+            } finally {
+              done()
+            }
+          } else {
+            done()
+          }
+        }
+      }).then((res) => {
+        console.log(res)
+      })
+    }
+
+    async function exportExcel(fileName: string) {
+      const { list } = await getTotalUser()
+      const normalizedJson = formatJson(
+        list,
+        (columnName: string, columnData: any) => {
+          if (columnName === 'role') {
+            const roles = columnData as IManageRoleInfoResultDTO[]
+
+            return roles.map((role) => role.title).toString()
+          } else if (columnName === 'openTime') {
+            return dayjs(
+              Number.isNaN(+columnData) ? columnData : +columnData
+            ).format('YYYY-MM-DD HH:mm:ss')
+          }
+          return columnData
+        }
+      )
+      json2Excel(fileName, normalizedJson)
+    }
+
     return {
       tableManageData,
       requestParameter,
+      loading,
       onPageSizeChange,
       onCurrentPageChange,
       pageSizes,
-      onImportExcelClick
+      onImportExcelClick,
+      onUserRemoveBtnClick,
+      onExportExcelClick
     }
   }
 }

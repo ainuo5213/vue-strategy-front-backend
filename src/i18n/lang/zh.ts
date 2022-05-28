@@ -139,12 +139,17 @@ export default {
     removeSuccess: '删除成功',
     title: '导出为 excel',
     placeholder: 'excel 文件名称',
+    errorExcelName: '请输入到处的文件名',
     defaultName: '员工管理表',
+    genExceling: '生成中...',
+    genExcelTitle: '提示',
     close: '取 消',
     confirm: '导 出',
     importSuccess: ' 条员工数据导入成功',
     dialogTitle1: '确定要删除用户 ',
     dialogTitle2: ' 吗？',
+    dialogTitle0: '警告',
+    removeSuccessTitle: '提示',
     roleDialogTitle: '配置角色'
   },
   role: {
