@@ -82,7 +82,7 @@ const appModule: Module<AppState, RootState> = {
           const tag = payload.tagView!
           if (
             state.tagsViewList.length === 1 &&
-            (tag.path === '/' || tag.path === '/home')
+            (tag.path === '/' || tag.path === '/profile')
           ) {
             return
           }

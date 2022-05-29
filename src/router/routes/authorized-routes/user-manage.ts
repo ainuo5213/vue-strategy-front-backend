@@ -34,15 +34,6 @@ export default {
       meta: {
         title: 'excelImport'
       }
-    },
-    {
-      path: '/profile',
-      name: 'profile',
-      component: () => import('@/views/profile/index.vue'),
-      meta: {
-        title: 'profile',
-        icon: 'user'
-      }
     }
   ]
 }

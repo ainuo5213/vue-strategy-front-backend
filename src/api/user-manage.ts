@@ -9,8 +9,6 @@ export interface IManageUserRequestParameter {
 export interface IManageRoleInfoResultDTO {
   id: string
   title: string
-  describe?: string
-  permissions?: string[]
 }
 
 export interface IManageUserInfoResultDTO {
@@ -98,5 +96,40 @@ export function getUerDetail(
 ): Promise<IUserInfoDetailResultDTO> {
   return request({
     url: `/user-manage/detail/${userId}`
+  })
+}
+
+interface IUserRoleItem {
+  id: string
+  title: string
+}
+
+export interface IUserRoleResultDTO {
+  role: IUserRoleItem[]
+  _id: string
+}
+
+export function getUserRoles(userId: string): Promise<IUserRoleResultDTO> {
+  return request({
+    url: `/user-manage/role/${userId}`
+  })
+}
+
+export interface IUpdateRoleItemDTO {
+  id: string
+  title: string
+  describe?: string
+}
+
+export function updateUserRoles(
+  userId: string,
+  roles: Array<IUpdateRoleItemDTO>
+): Promise<null> {
+  return request({
+    url: `/user-manage/update-role/${userId}`,
+    method: 'post',
+    data: {
+      roles
+    }
   })
 }

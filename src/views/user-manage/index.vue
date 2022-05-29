@@ -62,9 +62,12 @@
               @click="onDetailBtnClick(row)"
               >{{ $t('excel.show') }}</el-button
             >
-            <el-button type="info" size="small">{{
-              $t('excel.showRole')
-            }}</el-button>
+            <el-button
+              type="info"
+              size="small"
+              @click="onShowRoleBtnClick(row)"
+              >{{ $t('excel.showRole') }}</el-button
+            >
             <el-button
               @click="onUserRemoveBtnClick(row)"
               type="danger"
@@ -88,6 +91,13 @@
         ></el-pagination>
       </div>
     </el-card>
+
+    <role-dialog
+      v-model="roleDialogVisible"
+      :userId="selectUserId"
+      @update-role="onRoleUpdated"
+      @close="onDialogClose"
+    ></role-dialog>
   </div>
 </template>
 
@@ -109,13 +119,19 @@ import { ElMessage, ElMessageBox, ElNotification } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { formatJson, json2Excel } from './export'
 import dayjs from 'dayjs'
-;(window as any).dayjs = dayjs
+import RoleDialog from './components/role-dialog.vue'
+import { IRoleListResultDTO } from '@/api/role'
 export default {
   name: 'user-manage',
+  components: {
+    RoleDialog
+  },
   setup() {
     const router = useRouter()
     const i18n = useI18n()
     const loading = ref(false)
+    const selectUserId = ref<string>('')
+    const roleDialogVisible = ref(false)
     const requestParameter = ref<IManageUserRequestParameter>({
       size: 5,
       page: 1
@@ -246,6 +262,22 @@ export default {
         }
       })
     }
+
+    function onShowRoleBtnClick(userInfo: IManageUserInfoResultDTO) {
+      roleDialogVisible.value = true
+      selectUserId.value = userInfo._id
+    }
+
+    function onRoleUpdated(data: Array<IRoleListResultDTO>) {
+      const userId = selectUserId.value
+      const user = tableManageData.value.list.find((r) => r._id === userId)
+      if (user) {
+        user.role = data.map((r) => ({ id: r.id, title: r.title }))
+      }
+    }
+    function onDialogClose() {
+      selectUserId.value = ''
+    }
     return {
       tableManageData,
       requestParameter,
@@ -256,7 +288,12 @@ export default {
       onImportExcelClick,
       onUserRemoveBtnClick,
       onExportExcelClick,
-      onDetailBtnClick
+      onDetailBtnClick,
+      onShowRoleBtnClick,
+      onRoleUpdated,
+      onDialogClose,
+      roleDialogVisible,
+      selectUserId
     }
   }
 }

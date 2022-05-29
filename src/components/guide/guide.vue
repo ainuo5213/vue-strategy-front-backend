@@ -1,6 +1,6 @@
 <template>
   <div class="guide">
-    <el-tooltip :content="$t('navBar.guide')" :effect="effect">
+    <el-tooltip :content="$t('navBar.guide')" effect="light">
       <svg-icon id="guide-start" icon="guide" @click="onGuideClick"></svg-icon>
     </el-tooltip>
   </div>

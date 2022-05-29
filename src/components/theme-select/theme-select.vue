@@ -6,7 +6,7 @@
     @command="handleThemeChange"
   >
     <div class="theme-info">
-      <el-tooltip :content="$t('navBar.themeChange')" :effect="effect">
+      <el-tooltip :content="$t('navBar.themeChange')" effect="light">
         <svg-icon icon="change-theme" id="guide-theme"></svg-icon>
       </el-tooltip>
     </div>

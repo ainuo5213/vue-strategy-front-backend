@@ -1,6 +1,12 @@
 <template>
   <div class="tags-view-container" id="guide-tags">
-    <draggable v-model="tags" @end="onDragEnd" :animation="400" easing="linear">
+    <draggable
+      v-model="tags"
+      @end="onDragEnd"
+      :animation="400"
+      easing="linear"
+      item-key="path"
+    >
       <template #item="{ element: tag }">
         <router-link
           :key="tag.path"
