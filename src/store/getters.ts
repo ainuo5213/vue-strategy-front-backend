@@ -23,6 +23,8 @@ const getter: GetterTree<RootState, RootState> = {
   language: (state) => state.app.language,
   mainColor: (state) => state.theme.mainColor,
   tagsViewList: (state) => state.app.tagsViewList,
+  routes: (state) => state.permission.routes,
+  permissionFetching: (state) => state.app.permissionFetching,
   currentTagView: (state) => {
     const currentTagView = state.app.tagsViewList.find(
       (item) => item.path === state.app.currentTagViewPath

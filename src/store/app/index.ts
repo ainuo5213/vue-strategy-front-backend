@@ -34,6 +34,7 @@ export interface AppState {
   language: string
   tagsViewList: TagView[]
   currentTagViewPath: string
+  permissionFetching: boolean
 }
 export interface ExchangeTagView {
   oldIndex: number
@@ -48,9 +49,13 @@ const appModule: Module<AppState, RootState> = {
     tagsViewList: tags || [],
     currentTagViewPath:
       (get(CURRENT_TAG_VIEW_PATH) as string) ||
-      (tags && tags.length > 0 ? tags[0].path : '')
+      (tags && tags.length > 0 ? tags[0].path : ''),
+    permissionFetching: false
   }),
   mutations: {
+    permissionFetching(state: AppState, payload: boolean) {
+      state.permissionFetching = payload
+    },
     toggleSideBar(state: AppState) {
       state.sideBarOpened = !state.sideBarOpened
     },
@@ -80,12 +85,6 @@ const appModule: Module<AppState, RootState> = {
       switch (payload.type) {
         case 'current': {
           const tag = payload.tagView!
-          if (
-            state.tagsViewList.length === 1 &&
-            (tag.path === '/' || tag.path === '/profile')
-          ) {
-            return
-          }
           const index = state.tagsViewList.findIndex(
             (item) => item.path === tag.path
           )

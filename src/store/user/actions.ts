@@ -1,13 +1,12 @@
-import { TIME_STAMP } from './../../constant/user'
+import { TIME_STAMP } from '@/constant/user'
 import { clear } from '@/utils/storage'
-import { ElMessage } from 'element-plus'
 import { RootState } from '@/store/state'
 import { login, LoginUserDTO, getUserInfo as fetchUserInfo } from '@/api/system'
 import md5 from 'md5'
 import { ActionContext } from 'vuex'
 import { UserState } from '.'
 import { setTimestamp } from '@/utils/auth'
-import router from '@/router'
+import router, { resetRouter } from '@/router'
 
 export async function doLogin(
   context: ActionContext<UserState, RootState>,
@@ -45,5 +44,6 @@ export async function doLogout(context: ActionContext<UserState, RootState>) {
     },
     { root: true }
   )
+  resetRouter()
   return Promise.resolve()
 }

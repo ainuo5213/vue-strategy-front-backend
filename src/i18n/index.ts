@@ -7,11 +7,13 @@ const messages = {
   zh
 }
 
-const locale = store.getters.language
+function getLanguage() {
+  return store?.getters?.language || 'zh'
+}
 
 const i18n = createI18n({
   legacy: false, // 使用composition api
-  locale,
+  locale: getLanguage(),
   messages,
   globalInjection: true // 全局使用t函数
 })

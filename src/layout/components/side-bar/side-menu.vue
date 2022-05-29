@@ -37,6 +37,7 @@ export default {
     })
     const routes = computed(() => {
       const routes = router.getRoutes()
+
       return generateMenus(filterRoutes(routes))
     })
     const variables = computed(() => store.getters.cssVar)

@@ -1,4 +1,4 @@
-const additionWhiteList = ['/import', '/404', '/401']
+export const whiteList = ['/import', '/404', '/401', '/login']
 export function isObject(value: any): boolean {
   return value !== null && typeof value === 'object'
 }
@@ -8,5 +8,5 @@ export function isPlainObject(value: any): boolean {
 }
 
 export function isTags(path: string) {
-  return additionWhiteList.includes(path)
+  return whiteList.includes(path)
 }

@@ -100,7 +100,7 @@ export default {
               loading.value = true
               await store.dispatch('user/doLogin', loginForm.value)
               router.push({
-                name: 'userManage'
+                name: 'profile'
               })
               ElMessage({
                 type: 'success',

@@ -206,7 +206,6 @@ export default {
         showInput: true,
         inputPlaceholder: i18n.t('excel.placeholder'),
         inputValidator(value: string) {
-          console.log(value.length > 0)
           return value.length > 0
         },
         inputErrorMessage: i18n.t('excel.errorExcelName'),

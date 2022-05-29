@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts">
-import { watch } from '@vue/runtime-core'
+import { computed, watch } from '@vue/runtime-core'
 import { useRoute, RouteLocationNormalizedLoaded, RouteMeta } from 'vue-router'
 import { isTags } from '@/utils/is'
 import { useStore } from 'vuex'
