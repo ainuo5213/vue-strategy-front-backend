@@ -1,3 +1,4 @@
+import router from '@/router'
 import { clear, set } from '@/utils/storage'
 import { Store } from 'vuex'
 import { RootState } from './state'

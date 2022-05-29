@@ -1,13 +1,13 @@
+import router from '@/router'
 import nProgress from 'nprogress'
 import store from '@/store'
-import unAuthorizeRoutes from './routes/unauthorize-routes'
+
 import {
   Router,
   RouteLocationNormalized,
   NavigationGuardNext
 } from 'vue-router'
-
-const whiteList = unAuthorizeRoutes.map((r) => r.path)
+const whiteList = ['/import', '/404', '/401']
 
 nProgress.configure({
   showSpinner: false
@@ -15,7 +15,15 @@ nProgress.configure({
 
 async function setUserInfo() {
   if (!store.getters.userInfo) {
-    await store.dispatch('user/getUserInfo')
+    const { permission } = await store.dispatch('user/getUserInfo')
+    // const filterRoutes = await store.dispatch(
+    //   'permission/filterRoutes',
+    //   permission.menus
+    // )
+    // // 利用 addRoute 循环添加
+    // filterRoutes.forEach((item) => {
+    //   router.addRoute(item)
+    // })
   }
 }
 

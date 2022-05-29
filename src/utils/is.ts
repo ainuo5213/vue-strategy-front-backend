@@ -1,5 +1,4 @@
-import unAuthorizeRoutes from '@/router/routes/unauthorize-routes'
-const additionWhiteList = ['/import']
+const additionWhiteList = ['/import', '/404', '/401']
 export function isObject(value: any): boolean {
   return value !== null && typeof value === 'object'
 }
@@ -9,8 +8,5 @@ export function isPlainObject(value: any): boolean {
 }
 
 export function isTags(path: string) {
-  const whiteList = unAuthorizeRoutes
-    .map((r) => r.path)
-    .concat(additionWhiteList)
-  return whiteList.includes(path)
+  return additionWhiteList.includes(path)
 }

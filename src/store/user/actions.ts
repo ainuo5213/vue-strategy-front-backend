@@ -26,15 +26,9 @@ export async function doLogin(
 export async function getUserInfo(
   context: ActionContext<UserState, RootState>
 ) {
-  try {
-    const data = await fetchUserInfo()
-    context.commit('setUser', data)
-    return data
-  } catch {
-    ElMessage.error('登录失效，请重新登录')
-    await context.dispatch('doLogout')
-    return null
-  }
+  const data = await fetchUserInfo()
+  context.commit('setUser', data)
+  return data
 }
 
 export async function doLogout(context: ActionContext<UserState, RootState>) {
