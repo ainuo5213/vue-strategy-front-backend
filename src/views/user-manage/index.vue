@@ -56,9 +56,12 @@
         </el-table-column>
         <el-table-column :label="$t('excel.action')" fixed="right" width="240">
           <template #default="{ row }">
-            <el-button type="primary" size="small">{{
-              $t('excel.show')
-            }}</el-button>
+            <el-button
+              type="primary"
+              size="small"
+              @click="onDetailBtnClick(row)"
+              >{{ $t('excel.show') }}</el-button
+            >
             <el-button type="info" size="small">{{
               $t('excel.showRole')
             }}</el-button>
@@ -235,6 +238,14 @@ export default {
       json2Excel(fileName, normalizedJson)
     }
 
+    function onDetailBtnClick(userInfo: IManageUserInfoResultDTO) {
+      router.push({
+        name: 'userInfo',
+        params: {
+          id: userInfo._id
+        }
+      })
+    }
     return {
       tableManageData,
       requestParameter,
@@ -244,7 +255,8 @@ export default {
       pageSizes,
       onImportExcelClick,
       onUserRemoveBtnClick,
-      onExportExcelClick
+      onExportExcelClick,
+      onDetailBtnClick
     }
   }
 }

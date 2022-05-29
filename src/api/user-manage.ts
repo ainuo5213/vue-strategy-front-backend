@@ -63,3 +63,40 @@ export function getTotalUser(): Promise<
     url: '/user-manage/all-list'
   })
 }
+
+export interface IUserInfoRoleItem {
+  id: string
+  title: string
+}
+export interface IUserInfoExperienceItem {
+  startTime: string
+  endTime: string
+  title: string
+  desc: string
+}
+
+export interface IUserInfoDetailResultDTO {
+  role: IUserInfoRoleItem[]
+  remark: string[]
+  experience: IUserInfoExperienceItem[]
+  _id: string
+  id: string
+  openTime: string
+  username: string
+  title: string
+  mobile: string
+  avatar: string
+  gender: string
+  nationality: string
+  address: string
+  major: string
+  glory: string
+}
+
+export function getUerDetail(
+  userId: string
+): Promise<IUserInfoDetailResultDTO> {
+  return request({
+    url: `/user-manage/detail/${userId}`
+  })
+}
