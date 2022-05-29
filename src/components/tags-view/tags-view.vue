@@ -12,18 +12,22 @@
           :key="tag.path"
           class="tags-view-item"
           :class="{
-            active: isActive(tag.path)
+            active: tag.meta.active
           }"
           :to="{ path: tag.path }"
           :style="{
-            backgroundColor: isActive(tag.path) ? cssVar.menuBg : '',
-            borderColor: isActive(tag.path) ? cssVar.menuBg : ''
+            backgroundColor: tag.meta.active ? cssVar.menuBg : '',
+            borderColor: tag.meta.active ? cssVar.menuBg : ''
           }"
           draggable
           @contextmenu.prevent.stop="onContextMenu(tag, $event)"
         >
           <span class="title">{{ tag.title }}</span>
-          <el-icon @click.stop.prevent="onCloseIconClick(tag)"
+          <el-icon
+            v-if="
+              tags.length !== 1 || (tags.length === 1 && tag.name !== 'home')
+            "
+            @click.stop.prevent="onCloseIconClick(tag)"
             ><close
           /></el-icon>
         </router-link>
@@ -40,12 +44,13 @@
 <script lang="ts">
 import ContextMenu from '@/components/context-menu/context-menu.vue'
 import { TagView } from '@/store/app'
-import { computed, ref } from '@vue/runtime-core'
+import { computed, ref, nextTick } from '@vue/runtime-core'
 import { useStore } from 'vuex'
 import { ContextMenuData } from '@/components/context-menu/contextMenu'
 import { useI18n } from 'vue-i18n'
 import { watchLangChange } from '@/utils/i18n'
 import Draggable from 'vuedraggable'
+import { useRouter } from 'vue-router'
 export default {
   components: {
     ContextMenu,
@@ -54,6 +59,7 @@ export default {
   setup() {
     const store = useStore()
     const i18n = useI18n()
+    const router = useRouter()
     const tags = computed(() => store.getters.tagsViewList)
     const currentTag = computed(() => store.getters.currentTagView)
     const cssVar = computed(() => store.getters.cssVar)
@@ -62,12 +68,17 @@ export default {
       x: 0,
       y: 0
     })
-    const currentOperationTag = ref()
+    const currentOperationTag = ref<TagView | null>()
     function onCloseIconClick(tag: TagView) {
       store.commit('app/removeTagView', {
         type: 'current',
         tagView: tag
       })
+      if (tags.value.length === 0) {
+        router.push({
+          name: 'home'
+        })
+      }
     }
     function isActive(path: string) {
       return path === currentTag.value.path
@@ -85,8 +96,11 @@ export default {
       visible.value = false
       currentOperationTag.value = null
     }
-    function onRefresh() {
-      console.log('refresh')
+    async function onRefresh() {
+      store.commit('app/reloadRouter', true)
+      await nextTick()
+      store.commit('app/reloadRouter', false)
+      clearContextMenuData()
     }
     function onCloseRight() {
       store.commit('app/removeTagView', {
@@ -108,6 +122,12 @@ export default {
         tagView: currentOperationTag.value
       })
       clearContextMenuData()
+
+      if (tags.value.length === 0) {
+        router.push({
+          name: 'home'
+        })
+      }
     }
     function onCloseOther() {
       store.commit('app/removeTagView', {
@@ -121,6 +141,9 @@ export default {
         type: 'all'
       })
       clearContextMenuData()
+      router.push({
+        name: 'home'
+      })
     }
     const menuData = ref<ContextMenuData[]>([])
 
@@ -141,7 +164,13 @@ export default {
           },
           {
             title: i18n.t('tagsView.closeCurrent'),
-            click: onCloseCurrent
+            click: onCloseCurrent,
+            show: () => {
+              return (
+                tags.value.length !== 1 ||
+                (tags.value.length === 1 && tags.value[0].name !== 'home')
+              )
+            }
           },
           {
             title: i18n.t('tagsView.closeOther'),
@@ -149,7 +178,12 @@ export default {
           },
           {
             title: i18n.t('tagsView.closeAll'),
-            click: onCloseAll
+            click: onCloseAll,
+            show: () => {
+              return currentOperationTag.value
+                ? !((currentOperationTag.value!.name === 'home') as boolean)
+                : true
+            }
           }
         ]
       },

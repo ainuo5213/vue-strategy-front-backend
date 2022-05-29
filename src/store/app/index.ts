@@ -35,6 +35,7 @@ export interface AppState {
   tagsViewList: TagView[]
   currentTagViewPath: string
   permissionFetching: boolean
+  reload: boolean
 }
 export interface ExchangeTagView {
   oldIndex: number
@@ -50,9 +51,13 @@ const appModule: Module<AppState, RootState> = {
     currentTagViewPath:
       (get(CURRENT_TAG_VIEW_PATH) as string) ||
       (tags && tags.length > 0 ? tags[0].path : ''),
-    permissionFetching: false
+    permissionFetching: false,
+    reload: false
   }),
   mutations: {
+    reloadRouter(state: AppState, payload: boolean) {
+      state.reload = payload
+    },
     permissionFetching(state: AppState, payload: boolean) {
       state.permissionFetching = payload
     },
@@ -125,8 +130,9 @@ const appModule: Module<AppState, RootState> = {
             (item) => item.path === state.currentTagViewPath
           )
           state.tagsViewList = state.tagsViewList.filter(
-            (r) => r.path !== tag.path
+            (r) => r.path === tag.path
           )
+
           if (index !== currentIndex) {
             state.currentTagViewPath = state.tagsViewList[0].path
           }

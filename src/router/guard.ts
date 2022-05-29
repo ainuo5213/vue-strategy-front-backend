@@ -1,5 +1,4 @@
 import store from '@/store'
-import router from '@/router'
 import nProgress from 'nprogress'
 
 import {

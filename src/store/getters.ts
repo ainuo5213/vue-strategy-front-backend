@@ -22,7 +22,12 @@ const getter: GetterTree<RootState, RootState> = {
   sideBarOpened: (state) => state.app.sideBarOpened,
   language: (state) => state.app.language,
   mainColor: (state) => state.theme.mainColor,
-  tagsViewList: (state) => state.app.tagsViewList,
+  tagsViewList: (state) => {
+    state.app.tagsViewList.forEach((r) => {
+      r.meta.active = r.path === state.app.currentTagViewPath
+    })
+    return state.app.tagsViewList
+  },
   routes: (state) => state.permission.routes,
   permissionFetching: (state) => state.app.permissionFetching,
   currentTagView: (state) => {

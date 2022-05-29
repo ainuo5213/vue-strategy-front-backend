@@ -1,4 +1,3 @@
-import router from '@/router'
 import { RootState } from '@/store/state'
 import { createStore } from 'vuex'
 import { TAGS_VIEW_KEY, CURRENT_TAG_VIEW_PATH } from '@/constant/app'

@@ -1,6 +1,6 @@
 <template>
   <div class="app-main">
-    <router-view v-slot="{ Component, route }">
+    <router-view v-slot="{ Component, route }" v-if="!routerReload">
       <transition name="fade-transform" mode="out-in">
         <keep-alive>
           <component :is="Component" :key="route.path" />
@@ -34,6 +34,8 @@ export default {
   setup() {
     const route = useRoute()
     const store = useStore()
+    const routerReload = computed(() => store.state.app.reload)
+    const tagsViewList = computed(() => store.getters.tagsViewList)
     watch(
       route,
       (newRoute: RouteLocationNormalizedLoaded) => {
@@ -77,6 +79,10 @@ export default {
         immediate: false
       }
     )
+    return {
+      tagsViewList,
+      routerReload
+    }
   }
 }
 </script>

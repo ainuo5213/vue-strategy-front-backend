@@ -22,6 +22,14 @@ const routes: RouteRecordRaw[] = [
         }
       },
       {
+        path: '/home',
+        name: 'home',
+        component: () => import('@/views/home/index.vue'),
+        meta: {
+          title: 'home'
+        }
+      },
+      {
         path: '/404',
         name: '404',
         component: () => import('@/views/error-page/404.vue')

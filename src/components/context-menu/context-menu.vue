@@ -9,14 +9,16 @@
       }"
     >
       <template v-for="(item, index) in data" :key="index">
-        <li
-          class="context-menu-item"
-          v-if="!item.template"
-          @click.stop="onItemClick(item)"
-        >
-          {{ item.title }}
-        </li>
-        <slot v-else :name="item.template"></slot>
+        <template v-if="canShow(item)">
+          <li
+            class="context-menu-item"
+            v-if="!item.template"
+            @click.stop="onItemClick(item)"
+          >
+            {{ item.title }}
+          </li>
+          <slot v-else :name="item.template"></slot>
+        </template>
       </template>
     </ul>
   </teleport>
@@ -55,8 +57,19 @@ export default {
       document.body.removeEventListener('click', hideContextMenu)
       document.body.removeEventListener('contextmenu', hideContextMenu)
     })
+    function canShow(item: ContextMenuData) {
+      const showType = typeof item.show
+      if (showType === 'undefined') {
+        return true
+      }
+      if (showType === 'boolean') {
+        return item.show
+      }
+      return (item.show as () => void)()
+    }
     return {
-      onItemClick
+      onItemClick,
+      canShow
     }
   }
 }
