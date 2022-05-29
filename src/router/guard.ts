@@ -36,8 +36,10 @@ export function createRouterGuard(router: Router) {
             filterRoutes.forEach((item: RouteRecordRaw) => {
               router.addRoute(item)
             })
+            next(to.path)
+          } else {
+            next()
           }
-          next()
         }
       } else {
         if (whiteList.indexOf(to.path) !== -1) {
