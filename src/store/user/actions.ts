@@ -44,5 +44,12 @@ export async function doLogout(context: ActionContext<UserState, RootState>) {
   router.push({
     name: 'login'
   })
+  context.commit(
+    'app/removeTagView',
+    {
+      type: 'all'
+    },
+    { root: true }
+  )
   return Promise.resolve()
 }

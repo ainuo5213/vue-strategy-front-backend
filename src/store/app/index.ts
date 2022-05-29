@@ -3,7 +3,7 @@ import {
   LANGUAGE_KEY,
   TAGS_VIEW_KEY
 } from '@/constant/app'
-import { get } from '@/utils/storage'
+import { get, set } from '@/utils/storage'
 import { RootState } from '@/store/state'
 import { Module } from 'vuex'
 import {
@@ -13,7 +13,6 @@ import {
   RouteRecordName,
   RouteRecordRaw
 } from 'vue-router'
-import router from '@/router'
 import { swap } from '@/utils/math'
 export interface TagView {
   fullPath: string
@@ -57,6 +56,7 @@ const appModule: Module<AppState, RootState> = {
     },
     setLanguage(state: AppState, lang: string) {
       state.language = lang
+      set(LANGUAGE_KEY, lang)
     },
     addTagsViewList(state: AppState, tag: TagView) {
       const findItem = state.tagsViewList.find((item) => item.path === tag.path)
@@ -154,9 +154,6 @@ const appModule: Module<AppState, RootState> = {
           break
         }
       }
-      router.push({
-        path: state.currentTagViewPath
-      })
     },
     exchangeTagView(state: AppState, payload: ExchangeTagView) {
       swap(state.tagsViewList, payload.newIndex, payload.oldIndex)

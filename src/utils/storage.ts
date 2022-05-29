@@ -15,8 +15,10 @@ export function get<T>(key: string): T | string | null {
 export function set<T>(key: string, value: T): void {
   if (isObject(value)) {
     localStorage.setItem(key, JSON.stringify(value))
-  } else {
+  } else if (value) {
     localStorage.setItem(key, value + '')
+  } else {
+    clear(key)
   }
 }
 
