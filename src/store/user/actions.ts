@@ -32,6 +32,7 @@ export async function getUserInfo(
 
 export async function doLogout(context: ActionContext<UserState, RootState>) {
   context.commit('setToken', '')
+  resetRouter()
   context.commit('setUser', {})
   clear(TIME_STAMP)
   router.push({
@@ -44,6 +45,6 @@ export async function doLogout(context: ActionContext<UserState, RootState>) {
     },
     { root: true }
   )
-  resetRouter()
+
   return Promise.resolve()
 }
