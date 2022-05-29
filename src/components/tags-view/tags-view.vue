@@ -152,7 +152,10 @@ export default {
         menuData.value = [
           {
             title: i18n.t('tagsView.refresh'),
-            click: onRefresh
+            click: onRefresh,
+            show: () => {
+              return currentOperationTag.value!.meta.active as boolean
+            }
           },
           {
             title: i18n.t('tagsView.closeRight'),
