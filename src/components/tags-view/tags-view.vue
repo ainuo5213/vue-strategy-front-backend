@@ -42,11 +42,11 @@
 </template>
 
 <script lang="ts">
-import ContextMenu from '@/components/context-menu/context-menu.vue'
+import ContextMenu from '@/components/base/context-menu/context-menu.vue'
 import { TagView } from '@/store/app'
 import { computed, ref, nextTick } from '@vue/runtime-core'
 import { useStore } from 'vuex'
-import { ContextMenuData } from '@/components/context-menu/contextMenu'
+import { ContextMenuData } from '@/components/base/context-menu/contextMenu'
 import { useI18n } from 'vue-i18n'
 import { watchLangChange } from '@/utils/i18n'
 import Draggable from 'vuedraggable'
