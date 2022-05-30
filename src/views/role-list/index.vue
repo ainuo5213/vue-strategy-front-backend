@@ -18,6 +18,7 @@
         <el-table-column :label="$t('role.action')" width="200">
           <template #default="{ row }">
             <el-button
+              v-permission="'distributePermission'"
               size="small"
               type="primary"
               @click="onRoleActionBtnClick(row)"
