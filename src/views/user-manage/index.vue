@@ -92,7 +92,7 @@
           :page-size="requestParameter.size"
           :page-sizes="pageSizes"
           :total="tableManageData.total"
-          layout="total, sizes, prev, pager, next"
+          :layout="layout"
         ></el-pagination>
       </div>
     </el-card>
@@ -107,7 +107,7 @@
 </template>
 
 <script lang="ts">
-import { pageSizes } from '@/config/pagination'
+import { pageSizes, layout } from '@/config/pagination'
 import {
   getManageUsers,
   IManageUserRequestParameter,
@@ -297,7 +297,8 @@ export default {
       onRoleUpdated,
       onDialogClose,
       roleDialogVisible,
-      selectUserId
+      selectUserId,
+      layout
     }
   }
 }
@@ -317,12 +318,6 @@ export default {
 
   ::v-deep(.el-tag) {
     margin-right: 6px;
-  }
-
-  .pagination-container {
-    margin-top: 20px;
-    display: flex;
-    justify-content: flex-end;
   }
 
   .center {
