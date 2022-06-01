@@ -9,6 +9,7 @@ import SvgIconPlugin from '@/plugins/svg-icon'
 import DayjsPlugin from '@/plugins/day'
 import i18n from '@/i18n'
 import DirectivePlugin from './directives'
+
 createApp(App)
   .use(ElementPlusPlugin)
   .use(SvgIconPlugin)

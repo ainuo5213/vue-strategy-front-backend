@@ -1,71 +1,81 @@
 <template>
   <div class="article-ranking-container">
     <el-card>
-      <el-table
-        ref="tableRef"
-        v-loading="loading"
-        :data="tableManage.list"
-        border
-      >
-        <el-table-column
-          :label="$t('article.ranking')"
-          prop="ranking"
-        ></el-table-column>
-        <el-table-column
-          :label="$t('article.title')"
-          prop="title"
-        ></el-table-column>
-        <el-table-column
-          :label="$t('article.author')"
-          prop="author"
-        ></el-table-column>
-        <el-table-column :label="$t('article.publicDate')" prop="publicDate">
-        </el-table-column>
-        <el-table-column
-          :label="$t('article.desc')"
-          prop="desc"
-        ></el-table-column>
-        <el-table-column :label="$t('article.action')">
-          <el-button type="primary" size="small">{{
-            $t('article.show')
-          }}</el-button>
-          <el-button type="danger" size="small">{{
-            $t('article.remove')
-          }}</el-button>
-        </el-table-column>
-      </el-table>
-
-      <div class="pagination-container">
-        <el-pagination
-          background
-          class="pagination"
-          @size-change="onSizeChange"
-          @current-change="onCurrentPageChange"
-          :current-page="requestParameter.page"
-          :page-sizes="pageSizes"
-          :page-size="requestParameter.size"
-          :layout="layout"
-          :total="tableManage.total"
+      <span class="title">{{ $t('article.dynamicTitle') }}</span>
+      <el-checkbox-group v-model="selectedDynamicColumns">
+        <el-checkbox
+          v-for="(item, index) in allColumns"
+          :label="item.prop"
+          :key="index"
+          >{{ item.label }}</el-checkbox
         >
-        </el-pagination>
-      </div>
+      </el-checkbox-group>
+    </el-card>
+    <el-card>
+      <dynamic-table
+        :columns="tableColumns"
+        :data="tableManage.list"
+        :loading="loading"
+        :current-page="requestParameter.page"
+        :page-size="requestParameter.size"
+        :total="tableManage.total"
+        :sortable="true"
+        @size-change="onSizeChange"
+        @current-change="onCurrentPageChange"
+        @sort-end="onSortEnd"
+      >
+        <template #publicDate="{ data }">
+          {{
+            dayjs(
+              Number.isNaN(+data.publicDate)
+                ? data.publicDate
+                : +data.publicDate
+            ).fromCurrent()
+          }}
+        </template>
+        <template #action="{ data }">
+          <el-button
+            type="primary"
+            size="small"
+            @click="onShowBtnClick(data)"
+            >{{ $t('article.show') }}</el-button
+          >
+          <el-button
+            type="danger"
+            size="small"
+            @click="onRemoveBtnClick(data)"
+            >{{ $t('article.remove') }}</el-button
+          >
+        </template>
+      </dynamic-table>
     </el-card>
   </div>
 </template>
 
 <script lang="ts">
-import { getArticles, IArticleRankingResultDTO } from '@/api/article'
-import { onActivated, ref } from 'vue'
+import {
+  getArticles,
+  IArticleRankingResultDTO,
+  sortArticle
+} from '@/api/article'
+import { onActivated, ref, watch } from 'vue'
 import { watchLangChange } from '@/utils/i18n'
-import { PaginationWrapper } from '@/types'
+import { PaginationWrapper, Column } from '@/types'
 import { pageSizes, layout } from '@/config/pagination'
+import DynamicTable from '../../components/base/dynamic-table/dynamic-table.vue'
+import dynamicColumns from './column'
+import { SortableEvent } from 'sortablejs'
+import { ElMessage } from 'element-plus'
+import { useI18n } from 'vue-i18n'
 
 export default {
   name: 'article-ranking',
+  components: { DynamicTable },
   setup() {
+    const i18n = useI18n()
     const requestParameter = ref({
       page: 1,
-      size: 15
+      size: 10
     })
     const loading = ref(false)
     const tableManage = ref<PaginationWrapper<IArticleRankingResultDTO>>({
@@ -74,6 +84,13 @@ export default {
       total: 0,
       page: 1
     })
+
+    const originColumns = ref<Array<Column>>(dynamicColumns())
+    const tableColumns = ref<Array<Column>>(originColumns.value)
+    const selectedDynamicColumns = ref<Array<string>>(
+      originColumns.value.map((r) => r.prop)
+    )
+
     async function getArticleList() {
       loading.value = true
       try {
@@ -84,7 +101,21 @@ export default {
       }
     }
 
-    watchLangChange(getArticleList)
+    watch(selectedDynamicColumns, (newValue) => {
+      tableColumns.value = originColumns.value.filter((r) =>
+        newValue.includes(r.prop)
+      )
+    })
+
+    watchLangChange(() => {
+      const newColumns = dynamicColumns()
+      originColumns.value = newColumns
+
+      tableColumns.value = newColumns.filter((r) =>
+        tableColumns.value.map((r) => r.prop).includes(r.prop)
+      )
+      getArticleList()
+    })
 
     onActivated(getArticleList)
     function onSizeChange(size: number) {
@@ -95,16 +126,48 @@ export default {
       requestParameter.value.page = currentPage
       getArticleList()
     }
-    console.log(tableManage)
+
+    function onRemoveBtnClick(data: IArticleRankingResultDTO) {
+      console.log(data)
+    }
+
+    function onShowBtnClick(data: IArticleRankingResultDTO) {
+      console.log(data)
+    }
+
+    async function onSortEnd(e: SortableEvent) {
+      const { oldIndex, newIndex } = e
+      if (oldIndex === newIndex) {
+        return
+      }
+      const oldArticle = tableManage.value.list.at(oldIndex as number)!
+      const newArticle = tableManage.value.list.at(newIndex as number)!
+      await sortArticle({
+        initRanking: oldArticle?.ranking,
+        finalRanking: newArticle.ranking
+      })
+      ElMessage.success({
+        message: i18n.t('article.sortSuccess'),
+        type: 'success'
+      })
+      tableManage.value.list.length = 0
+      getArticleList()
+    }
 
     return {
       onSizeChange,
       onCurrentPageChange,
+      onRemoveBtnClick,
+      onShowBtnClick,
+      onSortEnd,
       pageSizes,
       layout,
       tableManage,
       loading,
-      requestParameter
+      requestParameter,
+      tableColumns: tableColumns,
+      allColumns: originColumns,
+      selectedDynamicColumns
     }
   }
 }

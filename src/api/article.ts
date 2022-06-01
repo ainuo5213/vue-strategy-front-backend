@@ -20,3 +20,14 @@ export function getArticles(params: {
     params
   })
 }
+
+export function sortArticle(data: {
+  initRanking: number
+  finalRanking: number
+}): Promise<null> {
+  return request({
+    url: '/article/sort',
+    method: 'post',
+    data
+  })
+}
