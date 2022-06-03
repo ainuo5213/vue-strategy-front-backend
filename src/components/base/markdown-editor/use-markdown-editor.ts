@@ -37,7 +37,7 @@ export default function useMarkdownEditor(
       el,
       height: '500px',
       previewStyle: 'vertical',
-      language: store.getters.language === 'zh' ? 'zh-cn' : 'en',
+      language: store.getters.language === 'zh' ? 'zh-CN' : 'en',
       plugins: [chart, syntaxHighlight, colorSyntax, tableMergedCell, uml],
       initialValue: props.modelValue
     })
