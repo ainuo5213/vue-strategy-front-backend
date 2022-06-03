@@ -1,11 +1,11 @@
 import { IUserInfoResultDTO } from '@/api/system'
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import { publicRoutes } from './routes'
 import { createRouterGuard } from './guard'
 import store from '@/store'
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHashHistory(process.env.BASE_URL),
   routes: publicRoutes
 })
 

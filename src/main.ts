@@ -8,13 +8,14 @@ import ElementPlusIconPlugin from '@/plugins/element-plus-icon'
 import SvgIconPlugin from '@/plugins/svg-icon'
 import DayjsPlugin from '@/plugins/day'
 import i18n from '@/i18n'
-import PrintPlugin from './directives/print'
+import DirectivePlugin from './directives'
+
 createApp(App)
   .use(ElementPlusPlugin)
   .use(SvgIconPlugin)
   .use(ElementPlusIconPlugin)
   .use(DayjsPlugin)
-  .use(PrintPlugin)
+  .use(DirectivePlugin)
   .use(store)
   .use(router)
   .use(i18n)
