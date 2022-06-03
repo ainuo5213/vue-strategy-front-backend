@@ -3,7 +3,7 @@ import axios, { AxiosResponse } from 'axios'
 import { ElMessage } from 'element-plus'
 import { timeouted } from './auth'
 
-const dynamicCode = process.env.DYNAMIC_CODE as string
+const dynamicCode = process.env.VUE_APP_DYNAMIC_CODE as string
 
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
