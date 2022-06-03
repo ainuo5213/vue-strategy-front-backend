@@ -1,6 +1,6 @@
 <template>
   <div class="article-ranking-container">
-    <el-card>
+    <el-card class="head">
       <span class="title">{{ $t('article.dynamicTitle') }}</span>
       <el-checkbox-group v-model="selectedDynamicColumns">
         <el-checkbox
@@ -10,6 +10,12 @@
           >{{ item.label }}</el-checkbox
         >
       </el-checkbox-group>
+      <el-button
+        class="create-article"
+        type="primary"
+        @click="onCreateArticleBtnClick"
+        >{{ $t('route.articleCreate') }}</el-button
+      >
     </el-card>
     <el-card>
       <dynamic-table
@@ -54,6 +60,7 @@
 
 <script lang="ts">
 import {
+  deleteArticle,
   getArticles,
   IArticleRankingResultDTO,
   sortArticle
@@ -65,14 +72,16 @@ import { pageSizes, layout } from '@/config/pagination'
 import DynamicTable from '../../components/base/dynamic-table/dynamic-table.vue'
 import dynamicColumns from './column'
 import { SortableEvent } from 'sortablejs'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import { useI18n } from 'vue-i18n'
+import { useRouter } from 'vue-router'
 
 export default {
   name: 'article-ranking',
   components: { DynamicTable },
   setup() {
     const i18n = useI18n()
+    const router = useRouter()
     const requestParameter = ref({
       page: 1,
       size: 10
@@ -127,12 +136,27 @@ export default {
       getArticleList()
     }
 
-    function onRemoveBtnClick(data: IArticleRankingResultDTO) {
-      console.log(data)
+    async function onRemoveBtnClick(data: IArticleRankingResultDTO) {
+      await ElMessageBox.confirm(
+        i18n.t('article.dialogTitle1') +
+          data.title +
+          i18n.t('article.dialogTitle2'),
+        {
+          type: 'warning'
+        }
+      )
+      await deleteArticle(data._id)
+      ElMessage.success(i18n.t('article.removeSuccess'))
+      getArticleList()
     }
 
     function onShowBtnClick(data: IArticleRankingResultDTO) {
-      console.log(data)
+      router.push({
+        name: 'articleDetail',
+        params: {
+          id: data._id
+        }
+      })
     }
 
     async function onSortEnd(e: SortableEvent) {
@@ -154,12 +178,19 @@ export default {
       getArticleList()
     }
 
+    function onCreateArticleBtnClick() {
+      router.push({
+        path: '/article/create'
+      })
+    }
+
     return {
       onSizeChange,
       onCurrentPageChange,
       onRemoveBtnClick,
       onShowBtnClick,
       onSortEnd,
+      onCreateArticleBtnClick,
       pageSizes,
       layout,
       tableManage,
@@ -173,4 +204,20 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+::v-deep(.el-card.head) {
+  margin-bottom: 20px;
+  .el-card__body {
+    display: flex;
+    align-items: center;
+    position: relative;
+    .title {
+      margin-right: 20px;
+    }
+    .create-article {
+      position: absolute;
+      right: 20px;
+    }
+  }
+}
+</style>

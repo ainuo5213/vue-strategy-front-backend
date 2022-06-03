@@ -31,3 +31,55 @@ export function sortArticle(data: {
     data
   })
 }
+
+export function deleteArticle(articleId: string): Promise<null> {
+  return request({
+    url: `/article/delete/${articleId}`,
+    method: 'get'
+  })
+}
+
+export interface IArticleDetailResultDTo {
+  _id: string
+  ranking: number
+  title: string
+  author: string
+  publicDate: string
+  desc: string
+  content: string
+  ___v: number
+}
+
+export function getArticleDetail(
+  articleId: string
+): Promise<IArticleDetailResultDTo> {
+  return request({
+    url: `/article/${articleId}`,
+    method: 'get'
+  })
+}
+
+export interface ArticleCreateInfo {
+  title: string
+  content: string
+}
+
+export function createArticle(data: ArticleCreateInfo): Promise<null> {
+  return request({
+    url: '/article/create',
+    method: 'post',
+    data
+  })
+}
+
+export const editArticle = (data: {
+  id: string
+  title: string
+  content: string
+}) => {
+  return request({
+    url: '/article/edit',
+    method: 'post',
+    data
+  })
+}
