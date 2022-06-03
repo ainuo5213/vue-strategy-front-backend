@@ -25,7 +25,7 @@
           <span class="title">{{ tag.title }}</span>
           <el-icon
             v-if="
-              tags.length !== 1 || (tags.length === 1 && tag.name !== 'home')
+              !tag.meta.active || (tags.length === 1 && tag.name !== 'home')
             "
             @click.stop.prevent="onCloseIconClick(tag)"
             ><close
@@ -170,7 +170,7 @@ export default {
             click: onCloseCurrent,
             show: () => {
               return (
-                tags.value.length !== 1 ||
+                (!currentOperationTag.value!.meta.active as boolean) ||
                 (tags.value.length === 1 && tags.value[0].name !== 'home')
               )
             }

@@ -2,9 +2,12 @@
   <div class="user-manage-container">
     <el-card class="header">
       <div class="excel-btn">
-        <el-button type="primary" @click="onImportExcelClick">{{
-          $t('excel.importExcel')
-        }}</el-button>
+        <el-button
+          type="primary"
+          v-permission="'importUser'"
+          @click="onImportExcelClick"
+          >{{ $t('excel.importExcel') }}</el-button
+        >
         <el-button type="success" @click="onExportExcelClick">{{
           $t('excel.exportExcel')
         }}</el-button>
@@ -66,12 +69,14 @@
               type="info"
               size="small"
               @click="onShowRoleBtnClick(row)"
+              v-permission="'distributeRole'"
               >{{ $t('excel.showRole') }}</el-button
             >
             <el-button
               @click="onUserRemoveBtnClick(row)"
               type="danger"
               size="small"
+              v-permission="'removeUser'"
               >{{ $t('excel.remove') }}</el-button
             >
           </template>
@@ -87,7 +92,7 @@
           :page-size="requestParameter.size"
           :page-sizes="pageSizes"
           :total="tableManageData.total"
-          layout="total, sizes, prev, pager, next"
+          :layout="layout"
         ></el-pagination>
       </div>
     </el-card>
@@ -102,7 +107,7 @@
 </template>
 
 <script lang="ts">
-import { pageSizes } from '@/config/pagination'
+import { pageSizes, layout } from '@/config/pagination'
 import {
   getManageUsers,
   IManageUserRequestParameter,
@@ -292,7 +297,8 @@ export default {
       onRoleUpdated,
       onDialogClose,
       roleDialogVisible,
-      selectUserId
+      selectUserId,
+      layout
     }
   }
 }
@@ -312,12 +318,6 @@ export default {
 
   ::v-deep(.el-tag) {
     margin-right: 6px;
-  }
-
-  .pagination-container {
-    margin-top: 20px;
-    display: flex;
-    justify-content: flex-end;
   }
 
   .center {
