@@ -1,9 +1,14 @@
+import { DYNAMIC_CODE } from '@/constant/app'
 import store from '@/store'
 import axios, { AxiosResponse } from 'axios'
 import { ElMessage } from 'element-plus'
 import { timeouted } from './auth'
+import { get, set } from './storage'
 
-const dynamicCode = process.env.VUE_APP_DYNAMIC_CODE as string
+if (!get(DYNAMIC_CODE)) {
+  set(DYNAMIC_CODE, process.env.VUE_APP_DYNAMIC_CODE)
+}
+const dynamicCode = get(DYNAMIC_CODE) as string
 
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
