@@ -2,8 +2,8 @@
   <div class="app-main">
     <router-view v-slot="{ Component, route }" v-if="!routerReload">
       <transition name="fade-transform" mode="out-in">
-        <keep-alive>
-          <component :is="Component" :key="route.path" />
+        <keep-alive :include="tagsViewNames">
+          <component :is="Component" :key="route.fullPath" />
         </keep-alive>
       </transition>
     </router-view>
@@ -17,6 +17,7 @@ import { isTags } from '@/utils/is'
 import { useStore } from 'vuex'
 import { generateTitle as i18nGenTitle, watchLangChange } from '@/utils/i18n'
 import { TagView } from '@/store/app'
+import MyKeepAlive from '@/components/meKeepAlive'
 
 function generateTitle(route: { meta?: RouteMeta; path: string }) {
   let title = ''
@@ -31,11 +32,18 @@ function generateTitle(route: { meta?: RouteMeta; path: string }) {
 
 export default {
   name: 'app',
+  components: {
+    MyKeepAlive
+  },
   setup() {
     const route = useRoute()
     const store = useStore()
     const routerReload = computed(() => store.state.app.reload)
     const tagsViewList = computed(() => store.getters.tagsViewList)
+    const tagsViewNames = computed(() => {
+      const names = store.getters.tagsViewList.map((r) => r.name).join(',')
+      return names
+    })
     watch(
       route,
       (newRoute: RouteLocationNormalizedLoaded) => {
@@ -81,7 +89,8 @@ export default {
     )
     return {
       tagsViewList,
-      routerReload
+      routerReload,
+      tagsViewNames
     }
   }
 }

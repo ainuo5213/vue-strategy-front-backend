@@ -24,7 +24,7 @@ const permissionModule: Module<PermissionState, RootState> = {
     ) {
       const routes: RouteRecordRaw[] = []
       menus.forEach((key) => {
-        routes.push(...privateRoutes.filter((item) => item.name === key))
+        routes.push(...privateRoutes)
       })
 
       routes.push({
